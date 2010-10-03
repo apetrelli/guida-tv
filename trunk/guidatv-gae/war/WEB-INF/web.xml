@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+	PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+	"http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <!-- Default page to serve -->
+    <servlet>
+        <servlet-name>schedule</servlet-name>
+        <servlet-class>com.google.code.guidatv.server.ScheduleRemoteServiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>schedule</servlet-name>
+        <url-pattern>/com.google.code.guidatv.GuidaTv/schedule</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>GuidaTv.html</welcome-file>
+    </welcome-file-list>
+</web-app>

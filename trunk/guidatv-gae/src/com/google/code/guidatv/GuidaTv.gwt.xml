@@ -1,0 +1,6 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+    <inherits name="org.gwt.advanced.Grid"/>
+	<entry-point class="com.google.code.guidatv.client.GuidaTv"/>
+</module>
