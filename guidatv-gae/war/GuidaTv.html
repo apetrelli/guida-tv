@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+		<!--                                                               -->
+		<!-- Consider inlining CSS to reduce the number of requested files -->
+		<!--                                                               -->
+		<link type="text/css" rel="stylesheet" href="GuidaTv.css">
+
+		<!--                                           -->
+		<!-- Any title is fine                         -->
+		<!--                                           -->
+		<title>Wrapper HTML for GuidaTv</title>
+
+		<!--                                           -->
+		<!-- This script loads your compiled module.   -->
+		<!-- If you add any GWT meta tags, they must   -->
+		<!-- be added before this line.                -->
+		<!--                                           -->
+		<script> var isomorphicDir = "com.google.code.guidatv.GuidaTv/sc/"; </script>
+		<script language="javascript" src="com.google.code.guidatv.GuidaTv/com.google.code.guidatv.GuidaTv.nocache.js"></script>
+<!-- 		<script type="text/javascript">
+			alert(document.getElementById("hello").contentWindow.document.body.innerHTML);
+		</script> -->
+	</head>
+
+	<!--                                           -->
+	<!-- The body can have arbitrary html, or      -->
+	<!-- we leave the body empty because we want   -->
+	<!-- to create a completely dynamic ui         -->
+	<!--                                           -->
+	<body>
+<!--		<input type="button" onclick="alert(document.getElementById('hello').contentWindow.document.body.innerHTML);" value="Prova" />-->
+		<!-- OPTIONAL: include this if you want history support -->
+		<iframe id="__gwt_historyFrame" style="width:0;height:0;border:0"></iframe>
+<!--		<iframe id="hello" src="http://www.rai.it/dl/portale/html/palinsesti/guidatv/static/RaiUno_2010_09_18.html" onload="alert(this.contentDocument.getElementsByTagName('li')[0].innerHTML)"></iframe>-->
+		<!-- iframe id="hello" src="javascript:this.src=&#39;http://www.rai.it/dl/portale/html/palinsesti/guidatv/static/RaiUno_2010_09_18.html&#39;;alert(this.innerHTML);"></iframe -->
+		<div id="mainPanel" style="position:absolute; top:0; bottom:0; left:0; right:0"></div>
+	</body>
+</html>
