@@ -1,12 +1,15 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
     <ui:with field="res" type="com.google.code.guidatv.client.pics.Pics" />
-	<ui:style>
+	<ui:style type="com.google.code.guidatv.client.ui.TransmissionWidget.TransmissionWidgetStyle">
 		.panel {
 			background-color: ivory;
 		}
 		.besides {
 			float: left;
+		}
+		.imagelink {
+			cursor: pointer;
 		}
 	</ui:style>
 
@@ -23,10 +26,10 @@
 				</g:LayoutPanel>
 				<g:Label text="Scrivere una descrizione" ui:field="description" wordWrap="true"/>
 				<g:HorizontalPanel spacing="5">
-					<g:Image resource="{res.info}" ui:field="infoLink"/>
-                    <g:Image resource="{res.google}" ui:field="googleLink"/>
-                    <g:Image resource="{res.wikipedia}" ui:field="wikipediaLink"/>
-                    <g:Image resource="{res.imdb}" ui:field="imdbLink"/>
+					<g:Image resource="{res.home}" ui:field="infoLink" styleName="{style.imagelink}"/>
+                    <g:Image resource="{res.google}" ui:field="googleLink" styleName="{style.imagelink}"/>
+                    <g:Image resource="{res.wikipedia}" ui:field="wikipediaLink" styleName="{style.imagelink}"/>
+                    <g:Image resource="{res.imdb}" ui:field="imdbLink" styleName="{style.imagelink}"/>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</g:DisclosurePanel>
