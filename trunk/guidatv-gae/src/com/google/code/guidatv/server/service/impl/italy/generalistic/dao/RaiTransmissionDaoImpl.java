@@ -101,6 +101,9 @@ public class RaiTransmissionDaoImpl implements RaiTransmissionDao {
                                         Element innerElement = (Element) innerItem;
                                         if ("A".equals(innerElement.getTagName())) {
                                             link = innerElement.getAttribute("href");
+                                            if (link != null && link.trim().length() <= 0) {
+                                                link = null;
+                                            }
                                             Text innerText = (Text) innerElement.getFirstChild();
                                             name = innerText.getWholeText();
                                         }

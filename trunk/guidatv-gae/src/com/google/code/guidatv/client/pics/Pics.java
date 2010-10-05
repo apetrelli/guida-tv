@@ -5,6 +5,9 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface Pics extends ClientBundle {
 
+    @Source("home.png")
+    ImageResource home();
+
     @Source("info.png")
     ImageResource info();
 
