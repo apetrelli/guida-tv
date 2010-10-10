@@ -26,10 +26,10 @@
 				</g:LayoutPanel>
 				<g:Label text="Scrivere una descrizione" ui:field="description" wordWrap="true"/>
 				<g:HorizontalPanel spacing="5">
-					<g:Image resource="{res.home}" ui:field="infoLink" styleName="{style.imagelink}"/>
-                    <g:Image resource="{res.google}" ui:field="googleLink" styleName="{style.imagelink}"/>
-                    <g:Image resource="{res.wikipedia}" ui:field="wikipediaLink" styleName="{style.imagelink}"/>
-                    <g:Image resource="{res.imdb}" ui:field="imdbLink" styleName="{style.imagelink}"/>
+					<g:Image resource="{res.home}" ui:field="infoLink" styleName="{style.imagelink}" title="Homepage"/>
+                    <g:Image resource="{res.google}" ui:field="googleLink" styleName="{style.imagelink}" title="Cerca con Google"/>
+                    <g:Image resource="{res.wikipedia}" ui:field="wikipediaLink" styleName="{style.imagelink}" title="Cerca su Wikipedia"/>
+                    <g:Image resource="{res.imdb}" ui:field="imdbLink" styleName="{style.imagelink}" title="Cerca su IMDB" />
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</gtv:DisclosurePanel>
