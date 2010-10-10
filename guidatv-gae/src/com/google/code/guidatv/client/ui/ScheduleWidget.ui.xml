@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'
 xmlns:p1="urn:import:com.google.gwt.user.datepicker.client"
-xmlns:agwt="urn:import:org.gwt.advanced.client.ui.widget">
+xmlns:agwt="urn:import:org.gwt.advanced.client.ui.widget"
+xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 	<ui:style type="com.google.code.guidatv.client.ui.ScheduleWidget.ScheduleWidgetStyle">
 		.panel {
 			background-color: ivory;
@@ -25,7 +26,7 @@ xmlns:agwt="urn:import:org.gwt.advanced.client.ui.widget">
 			</g:west>
 			<g:center size="7.7">
 				<!-- <g:ScrollPanel> -->
-                    <agwt:SimpleGrid width="100%" ui:field="scheduleTable"/>
+                    <gtv:DoubleEntryTable width="100%" ui:field="scheduleTable" minimumRowSize="30" />
                     <!-- <g:FlexTable  /> -->
                 <!-- </g:ScrollPanel> -->
 			</g:center>
