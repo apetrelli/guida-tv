@@ -2,8 +2,6 @@ package com.google.code.guidatv.client.ui;
 
 import java.util.Date;
 
-import org.gwt.advanced.client.ui.widget.SimpleGrid;
-
 import com.google.code.guidatv.client.ScheduleRemoteService;
 import com.google.code.guidatv.client.ScheduleRemoteServiceAsync;
 import com.google.code.guidatv.client.model.Channel;
@@ -11,6 +9,8 @@ import com.google.code.guidatv.client.model.ChannelEntry;
 import com.google.code.guidatv.client.model.IntervalEntry;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.client.ui.widget.DoubleEntryTable;
+import com.google.code.guidatv.client.ui.widget.ResizableVerticalPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -22,7 +22,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
@@ -34,21 +33,19 @@ public class ScheduleWidget extends Composite {
             DateTimeFormat format = DateTimeFormat
                     .getFormat(PredefinedFormat.HOUR24_MINUTE);
             scheduleTable.clear();
-            int width = scheduleTable.getElement().getParentElement()
-                    .getOffsetHeight();
-            scheduleTable.setHeaderWidget(0, new Label("Ora"));
-            int i = 1;
+            scheduleTable.setCornerWidget(new Label("Ora"));
+            int i = 0;
             for (Channel channel : schedule.getChannels()) {
-                scheduleTable.setHeaderWidget(i, new Label(channel.getName()));
+                scheduleTable.setRowHeaderWidget(i, new Label(channel.getName()));
                 i++;
             }
             int j = 0;
             for (IntervalEntry interval : schedule.getIntervals()) {
-                scheduleTable.setText(j, 0, format.format(interval.getStart()));
-                i = 1;
+                scheduleTable.setColumnHeaderWidget(j, new Label(format.format(interval.getStart())));
+                i = 0;
                 for (Channel channel : schedule.getChannels()) {
                     ChannelEntry entry = interval.getEntry(channel);
-                    VerticalPanel transmissionPanel = new VerticalPanel();
+                    ResizableVerticalPanel transmissionPanel = new ResizableVerticalPanel();
                     if (entry != null) {
                         for (Transmission transmission : entry
                                 .getTransmissions()) {
@@ -59,13 +56,12 @@ public class ScheduleWidget extends Composite {
                     scheduleTable.setWidget(j, i, transmissionPanel);
                     i++;
                 }
-                scheduleTable.getRowFormatter().addStyleName(j,
+                scheduleTable.getContentRowFormatter().addStyleName(j,
                         j % 2 == 0 ? style.evenrow() : style.oddrow());
                 j++;
             }
-            scheduleTable.setColumnWidth(0, 50);
-            scheduleTable.setBodyHeight(Integer.toString(width - 50) + "px");
-            scheduleTable.enableVerticalScrolling(true);
+            scheduleTable.setHeaderColumnWidth("50px");
+            scheduleTable.layout();
         }
 
         @Override
@@ -86,7 +82,7 @@ public class ScheduleWidget extends Composite {
             .create(ScheduleRemoteService.class);
 
     @UiField
-    SimpleGrid scheduleTable;
+    DoubleEntryTable scheduleTable;
     @UiField
     DateBox dateBox;
     @UiField
@@ -103,9 +99,11 @@ public class ScheduleWidget extends Composite {
 
             @Override
             public void onValueChange(ValueChangeEvent<Date> event) {
-                Date date = dateBox.getValue();
-                scheduleService
-                        .getDayScheduleResume(date, new UpdateCallback());
+                if (event.getValue().getHours() == 0) {
+                    Date date = dateBox.getValue();
+                    scheduleService
+                            .getDayScheduleResume(date, new UpdateCallback());
+                }
             }
         });
     }
