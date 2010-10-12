@@ -19,4 +19,7 @@ public interface Pics extends ClientBundle {
 
     @Source("imdb.png")
     ImageResource imdb();
+
+    @Source("loading.gif")
+    ImageResource loading();
 }

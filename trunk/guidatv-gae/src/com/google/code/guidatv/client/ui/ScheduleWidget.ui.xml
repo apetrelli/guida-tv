@@ -25,10 +25,7 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 				</g:FlowPanel>
 			</g:west>
 			<g:center size="7.7">
-				<!-- <g:ScrollPanel> -->
-                    <gtv:DoubleEntryTable width="100%" ui:field="scheduleTable" minimumRowSize="30" />
-                    <!-- <g:FlexTable  /> -->
-                <!-- </g:ScrollPanel> -->
+				<g:SimplePanel ui:field="containerPanel" />
 			</g:center>
 		</g:DockLayoutPanel>
 	</g:FlowPanel>

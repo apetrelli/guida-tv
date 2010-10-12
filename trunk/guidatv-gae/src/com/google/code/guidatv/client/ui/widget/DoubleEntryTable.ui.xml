@@ -23,7 +23,7 @@
         	overflow: scroll;
         }
     </ui:style>
-    <g:FlowPanel ui:field="mainPanel">
+    <g:SimplePanel ui:field="mainPanel">
     	<g:Grid addStyleNames="{style.doubleEntryInnerTable}" ui:field="mainGrid" cellPadding="0">
             <g:row>
                 <g:customCell>
@@ -50,5 +50,5 @@
                 </g:customCell>
             </g:row>
         </g:Grid>
-    </g:FlowPanel>
+    </g:SimplePanel>
 </ui:UiBinder>
