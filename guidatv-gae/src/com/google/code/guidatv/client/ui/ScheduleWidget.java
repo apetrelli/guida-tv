@@ -9,6 +9,7 @@ import com.google.code.guidatv.client.model.ChannelEntry;
 import com.google.code.guidatv.client.model.IntervalEntry;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.client.pics.Pics;
 import com.google.code.guidatv.client.ui.widget.DoubleEntryTable;
 import com.google.code.guidatv.client.ui.widget.ResizableVerticalPanel;
 import com.google.gwt.core.client.GWT;
@@ -21,7 +22,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
@@ -30,6 +33,8 @@ public class ScheduleWidget extends Composite {
     private final class UpdateCallback implements AsyncCallback<ScheduleResume> {
         @Override
         public void onSuccess(ScheduleResume schedule) {
+            containerPanel.clear();
+            containerPanel.add(scheduleTable);
             DateTimeFormat format = DateTimeFormat
                     .getFormat(PredefinedFormat.HOUR24_MINUTE);
             scheduleTable.clear();
@@ -82,17 +87,24 @@ public class ScheduleWidget extends Composite {
             .create(ScheduleRemoteService.class);
 
     @UiField
-    DoubleEntryTable scheduleTable;
-    @UiField
     DateBox dateBox;
     @UiField
     ScheduleWidgetStyle style;
+    @UiField SimplePanel containerPanel;
+
+    private DoubleEntryTable scheduleTable;
+
+    private Image loading;
 
     interface Binder extends UiBinder<Widget, ScheduleWidget> {
     }
 
     public ScheduleWidget() {
         initWidget(binder.createAndBindUi(this));
+        scheduleTable = new DoubleEntryTable();
+        scheduleTable.setMinimumRowSize(30);
+        Pics pics = GWT.create(Pics.class);
+        loading = new Image(pics.loading());
         dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat
                 .getFormat("dd/MM/yyyy")));
         dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
@@ -100,6 +112,8 @@ public class ScheduleWidget extends Composite {
             @Override
             public void onValueChange(ValueChangeEvent<Date> event) {
                 if (event.getValue().getHours() == 0) {
+                    containerPanel.clear();
+                    containerPanel.add(loading);
                     Date date = dateBox.getValue();
                     scheduleService
                             .getDayScheduleResume(date, new UpdateCallback());

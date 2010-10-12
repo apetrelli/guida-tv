@@ -1,6 +1,8 @@
 package com.google.code.guidatv.client.ui.widget;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
@@ -19,11 +21,12 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DoubleEntryTable extends Composite {
 
-    @UiField FlowPanel mainPanel;
+    @UiField SimplePanel mainPanel;
     @UiField Grid mainGrid;
     @UiField FlexTable cornerTable;
     @UiField FlexTable headerRowTable;
@@ -42,6 +45,12 @@ public class DoubleEntryTable extends Composite {
 
     public DoubleEntryTable() {
         initWidget(binder.createAndBindUi(this));
+        Style mainPanelStyle = mainPanel.getElement().getStyle();
+        mainPanelStyle.setPosition(Position.ABSOLUTE);
+        mainPanelStyle.setTop(0, Unit.PX);
+        mainPanelStyle.setBottom(0, Unit.PX);
+        mainPanelStyle.setLeft(0, Unit.PX);
+        mainPanelStyle.setRight(0, Unit.PX);
         contentBlock.addScrollHandler(new ScrollHandler() {
 
             @Override
