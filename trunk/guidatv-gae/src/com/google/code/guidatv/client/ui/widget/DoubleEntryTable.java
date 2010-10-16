@@ -111,6 +111,10 @@ public class DoubleEntryTable extends Composite {
         return contentTable.getRowFormatter();
     }
 
+    public RowFormatter getHeaderColumnRowFormatter() {
+        return headerColumnTable.getRowFormatter();
+    }
+
     public void setHeaderColumnWidth(String width) {
         for (int i=0; i < headerColumnTable.getRowCount(); i++) {
             Widget widget = headerColumnTable.getWidget(i, 0);

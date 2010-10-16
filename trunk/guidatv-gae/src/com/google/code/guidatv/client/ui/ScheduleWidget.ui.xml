@@ -21,7 +21,10 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 		<g:DockLayoutPanel unit="EM" width="100%" height="100%">
 			<g:west size="12.5">
 				<g:FlowPanel>
+					<g:Label text="Data"/>
 					<p1:DateBox ui:field="dateBox"/>
+                    <g:Button text="Aggiorna" ui:field="updateButton"></g:Button>
+					<gtv:ChannelTree ui:field="channelTree"/>
 				</g:FlowPanel>
 			</g:west>
 			<g:center size="7.7">
