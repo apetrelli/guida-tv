@@ -3,8 +3,12 @@ package com.google.code.guidatv.server;
 import java.util.Date;
 import java.util.Set;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.code.guidatv.client.ScheduleRemoteService;
 import com.google.code.guidatv.client.model.Channel;
+import com.google.code.guidatv.client.model.LoginInfo;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
@@ -18,6 +22,21 @@ public class ScheduleRemoteServiceServlet extends RemoteServiceServlet implement
     private ScheduleService service = new ScheduleServiceImpl();
     
     private ChannelService channelService = new ChannelServiceImpl();
+
+    @Override
+    public LoginInfo getLoginInfo(String requestUri) {
+        LoginInfo info;
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user != null) {
+            info = new LoginInfo("Benvenuto " + user.getNickname(),
+                    userService.createLogoutURL(requestUri), "Esci");
+        } else {
+            info = new LoginInfo("Benvenuto!",
+                    userService.createLoginURL(requestUri), "Login");
+        }
+        return info;
+    }
 
     @Override
     public ScheduleResume getDayScheduleResume(Date day, Set<String> channels) {

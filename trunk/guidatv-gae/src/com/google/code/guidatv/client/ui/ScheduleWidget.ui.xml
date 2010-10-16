@@ -15,6 +15,11 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 		.evenrow {
 			background-color: #ccccff;
 		}
+		.inline {
+			float: left;
+			padding-left: 1em;
+			padding-top: 0.2em;
+		}
 	</ui:style>
 
 	<g:FlowPanel styleName="{style.panel}">
@@ -30,6 +35,12 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 			<g:center size="7.7">
 				<g:SimplePanel ui:field="containerPanel" />
 			</g:center>
+			<g:north size="2.5">
+				<g:FlowPanel>
+                    <g:Label text="Benvenuto!" ui:field="usernameLabel" addStyleNames="{style.inline}"/>
+                    <g:Anchor ui:field="logLink" addStyleNames="{style.inline}" />
+                </g:FlowPanel>
+			</g:north>
 		</g:DockLayoutPanel>
 	</g:FlowPanel>
 </ui:UiBinder>
