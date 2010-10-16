@@ -10,17 +10,20 @@ import com.google.code.guidatv.client.model.IntervalEntry;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.model.Transmission;
 import com.google.code.guidatv.client.pics.Pics;
+import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
+import com.google.code.guidatv.client.ui.widget.ChannelTree;
 import com.google.code.guidatv.client.ui.widget.DoubleEntryTable;
 import com.google.code.guidatv.client.ui.widget.ResizableVerticalPanel;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -61,8 +64,10 @@ public class ScheduleWidget extends Composite {
                     scheduleTable.setWidget(j, i, transmissionPanel);
                     i++;
                 }
+                String styleName = j % 2 == 0 ? style.evenrow() : style.oddrow();
                 scheduleTable.getContentRowFormatter().addStyleName(j,
-                        j % 2 == 0 ? style.evenrow() : style.oddrow());
+                        styleName);
+                scheduleTable.getHeaderColumnRowFormatter().addStyleName(j, styleName);
                 j++;
             }
             scheduleTable.setHeaderColumnWidth("50px");
@@ -91,6 +96,8 @@ public class ScheduleWidget extends Composite {
     @UiField
     ScheduleWidgetStyle style;
     @UiField SimplePanel containerPanel;
+    @UiField ChannelTree channelTree;
+    @UiField Button updateButton;
 
     private DoubleEntryTable scheduleTable;
 
@@ -101,24 +108,30 @@ public class ScheduleWidget extends Composite {
 
     public ScheduleWidget() {
         initWidget(binder.createAndBindUi(this));
+        channelTree.init(new ChannelServiceImpl());
         scheduleTable = new DoubleEntryTable();
         scheduleTable.setMinimumRowSize(30);
         Pics pics = GWT.create(Pics.class);
         loading = new Image(pics.loading());
         dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat
                 .getFormat("dd/MM/yyyy")));
-        dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
-
+        dateBox.setValue(new Date());
+        updateButton.addClickHandler(new ClickHandler() {
+            
             @Override
-            public void onValueChange(ValueChangeEvent<Date> event) {
-                if (event.getValue().getHours() == 0) {
-                    containerPanel.clear();
-                    containerPanel.add(loading);
-                    Date date = dateBox.getValue();
-                    scheduleService
-                            .getDayScheduleResume(date, new UpdateCallback());
-                }
+            public void onClick(ClickEvent event) {
+                loadSchedule();
             }
         });
+        loadSchedule();
+    }
+
+    private void loadSchedule() {
+        containerPanel.clear();
+        containerPanel.add(loading);
+        Date date = dateBox.getValue();
+        scheduleService.getDayScheduleResume(date,
+                channelTree.getSelectedChannels(),
+                new UpdateCallback());
     }
 }

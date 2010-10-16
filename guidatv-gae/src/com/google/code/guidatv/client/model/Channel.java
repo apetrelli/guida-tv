@@ -6,6 +6,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Channel implements Serializable, IsSerializable {
 
+    private static final long serialVersionUID = -6692458541793432252L;
+
     private String code;
 
     private String name;
@@ -13,6 +15,8 @@ public class Channel implements Serializable, IsSerializable {
     private String genre;
 
     private String localeCode;
+    
+    private String network;
 
     public Channel() {
     }
