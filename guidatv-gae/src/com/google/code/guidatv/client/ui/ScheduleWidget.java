@@ -7,6 +7,7 @@ import com.google.code.guidatv.client.ScheduleRemoteServiceAsync;
 import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.ChannelEntry;
 import com.google.code.guidatv.client.model.IntervalEntry;
+import com.google.code.guidatv.client.model.LoginInfo;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.model.Transmission;
 import com.google.code.guidatv.client.pics.Pics;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.Anchor;
 
 public class ScheduleWidget extends Composite {
 
@@ -98,6 +100,8 @@ public class ScheduleWidget extends Composite {
     @UiField SimplePanel containerPanel;
     @UiField ChannelTree channelTree;
     @UiField Button updateButton;
+    @UiField Label usernameLabel;
+    @UiField Anchor logLink;
 
     private DoubleEntryTable scheduleTable;
 
@@ -121,6 +125,20 @@ public class ScheduleWidget extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 loadSchedule();
+            }
+        });
+        scheduleService.getLoginInfo(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                GWT.log("Non riesco a ottenere i dati di login", caught);
+            }
+
+            @Override
+            public void onSuccess(LoginInfo result) {
+                usernameLabel.setText(result.getNickname());
+                logLink.setHref(result.getUrl());
+                logLink.setText(result.getLinkLabel());
             }
         });
         loadSchedule();
