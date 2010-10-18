@@ -28,6 +28,7 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 				<g:FlowPanel>
 					<g:Label text="Data"/>
 					<p1:DateBox ui:field="dateBox"/>
+					<g:Button ui:field="saveButton" text="Salva lista canali" enabled="false"></g:Button>
                     <g:Button text="Aggiorna" ui:field="updateButton"></g:Button>
 					<gtv:ChannelTree ui:field="channelTree"/>
 				</g:FlowPanel>

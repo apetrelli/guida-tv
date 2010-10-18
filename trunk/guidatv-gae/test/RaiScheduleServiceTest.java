@@ -20,9 +20,9 @@ public class RaiScheduleServiceTest {
     public void testGetSchedule() {
         ScheduleService service = new ScheduleServiceImpl();
 
-        Channel rai1 = new Channel("RaiUno", "Rai 1", "generalistic", "it_IT");
-        Channel rai2 = new Channel("RaiDue", "Rai 2", "generalistic", "it_IT");
-        Channel rai3 = new Channel("RaiTre", "Rai 3", "generalistic", "it_IT");
+        Channel rai1 = new Channel("RaiUno", "Rai 1", "generalistic", "it_IT", "Rai");
+        Channel rai2 = new Channel("RaiDue", "Rai 2", "generalistic", "it_IT", "Rai");
+        Channel rai3 = new Channel("RaiTre", "Rai 3", "generalistic", "it_IT", "Rai");
         Date today = new Date();
         today = new Date(today.getYear(), today.getMonth(), today.getDate());
         Schedule rai1Schedule = service.getSchedule(rai1, today);

@@ -12,4 +12,7 @@ public interface ScheduleRemoteServiceAsync {
     void getLoginInfo(String requestUri, AsyncCallback<LoginInfo> callback);
 
     void getDayScheduleResume(Date day, Set<String> channels, AsyncCallback<ScheduleResume> callback);
+
+    void savePreferredChannels(Set<String> channels,
+            AsyncCallback<Void> callback);
 }

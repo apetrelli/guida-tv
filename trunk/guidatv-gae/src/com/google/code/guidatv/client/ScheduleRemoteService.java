@@ -14,4 +14,6 @@ public interface ScheduleRemoteService extends RemoteService {
     LoginInfo getLoginInfo(String requestUri);
 
     ScheduleResume getDayScheduleResume(Date day, Set<String> channels);
+    
+    void savePreferredChannels(Set<String> channels);
 }
