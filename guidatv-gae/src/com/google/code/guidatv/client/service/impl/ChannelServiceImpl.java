@@ -71,21 +71,21 @@ public class ChannelServiceImpl implements ChannelService{
     private void addRaiChannels(List<String> networks) {
         networks.add("Rai");
         List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel("RaiUno", "Rai 1", "generalistic", "it_IT"));
-        channels.add(new Channel("RaiDue", "Rai 2", "generalistic", "it_IT"));
-        channels.add(new Channel("RaiTre", "Rai 3", "generalistic", "it_IT"));
-        channels.add(new Channel("Rai4", "Rai 4", "movies/series", "it_IT"));
-        channels.add(new Channel("RaiNews", "Rai News 24", "news", "it_IT"));
-        channels.add(new Channel("RaiSport1", "Rai Sport 1", "sport", "it_IT"));
-        channels.add(new Channel("RaiSport2", "Rai Sport 2", "sport", "it_IT"));
-        channels.add(new Channel("RaiEducational", "Rai Scuola", "education", "it_IT"));
-        channels.add(new Channel("RaiEDU2", "Rai Storia", "education", "it_IT"));
-        channels.add(new Channel("Extra", "Rai Extra", "retakes", "it_IT"));
-        channels.add(new Channel("Premium", "Rai Premium", "retakes", "it_IT"));
-        channels.add(new Channel("CinemaWorld", "Rai Movie", "movies", "it_IT"));
-        channels.add(new Channel("RaiGulp", "Rai Gulp", "children", "it_IT"));
-        channels.add(new Channel("Yoyo", "Rai Yoyo", "children", "it_IT"));
-        channels.add(new Channel("EuroNews", "Euronews", "news", "it_IT"));
+        channels.add(new Channel("RaiUno", "Rai 1", "generalistic", "it_IT", "Rai"));
+        channels.add(new Channel("RaiDue", "Rai 2", "generalistic", "it_IT", "Rai"));
+        channels.add(new Channel("RaiTre", "Rai 3", "generalistic", "it_IT", "Rai"));
+        channels.add(new Channel("Rai4", "Rai 4", "movies/series", "it_IT", "Rai"));
+        channels.add(new Channel("RaiNews", "Rai News 24", "news", "it_IT", "Rai"));
+        channels.add(new Channel("RaiSport1", "Rai Sport 1", "sport", "it_IT", "Rai"));
+        channels.add(new Channel("RaiSport2", "Rai Sport 2", "sport", "it_IT", "Rai"));
+        channels.add(new Channel("RaiEducational", "Rai Scuola", "education", "it_IT", "Rai"));
+        channels.add(new Channel("RaiEDU2", "Rai Storia", "education", "it_IT", "Rai"));
+        channels.add(new Channel("Extra", "Rai Extra", "retakes", "it_IT", "Rai"));
+        channels.add(new Channel("Premium", "Rai Premium", "retakes", "it_IT", "Rai"));
+        channels.add(new Channel("CinemaWorld", "Rai Movie", "movies", "it_IT", "Rai"));
+        channels.add(new Channel("RaiGulp", "Rai Gulp", "children", "it_IT", "Rai"));
+        channels.add(new Channel("Yoyo", "Rai Yoyo", "children", "it_IT", "Rai"));
+        channels.add(new Channel("EuroNews", "Euronews", "news", "it_IT", "Rai"));
         network2channels.put("Rai", channels);
     }
 

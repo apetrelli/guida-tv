@@ -11,6 +11,7 @@ import com.google.code.guidatv.client.model.LoginInfo;
 import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.code.guidatv.client.model.Transmission;
 import com.google.code.guidatv.client.pics.Pics;
+import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
 import com.google.code.guidatv.client.ui.widget.ChannelTree;
 import com.google.code.guidatv.client.ui.widget.DoubleEntryTable;
@@ -23,6 +24,7 @@ import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,6 +34,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.uibinder.client.UiHandler;
 
 public class ScheduleWidget extends Composite {
 
@@ -92,6 +95,8 @@ public class ScheduleWidget extends Composite {
 
     private ScheduleRemoteServiceAsync scheduleService = GWT
             .create(ScheduleRemoteService.class);
+    
+    private ChannelService channelService;
 
     @UiField
     DateBox dateBox;
@@ -102,6 +107,7 @@ public class ScheduleWidget extends Composite {
     @UiField Button updateButton;
     @UiField Label usernameLabel;
     @UiField Anchor logLink;
+    @UiField Button saveButton;
 
     private DoubleEntryTable scheduleTable;
 
@@ -112,7 +118,8 @@ public class ScheduleWidget extends Composite {
 
     public ScheduleWidget() {
         initWidget(binder.createAndBindUi(this));
-        channelTree.init(new ChannelServiceImpl());
+        channelService = new ChannelServiceImpl();
+        channelTree.init(channelService);
         scheduleTable = new DoubleEntryTable();
         scheduleTable.setMinimumRowSize(30);
         Pics pics = GWT.create(Pics.class);
@@ -136,12 +143,19 @@ public class ScheduleWidget extends Composite {
 
             @Override
             public void onSuccess(LoginInfo result) {
-                usernameLabel.setText(result.getNickname());
+                String nickname = result.getNickname();
+                if (nickname != null) {
+                    usernameLabel.setText("Benvenuto " + nickname + "!");
+                    saveButton.setEnabled(true);
+                } else {
+                    usernameLabel.setText("Benvenuto!");
+                }
+                channelTree.setSelectedChannels(result.getPreferredChannels());
                 logLink.setHref(result.getUrl());
                 logLink.setText(result.getLinkLabel());
+                loadSchedule();
             }
         });
-        loadSchedule();
     }
 
     private void loadSchedule() {
@@ -151,5 +165,22 @@ public class ScheduleWidget extends Composite {
         scheduleService.getDayScheduleResume(date,
                 channelTree.getSelectedChannels(),
                 new UpdateCallback());
+    }
+    
+    @UiHandler("saveButton")
+    void onSaveButtonClick(ClickEvent event) {
+        scheduleService.savePreferredChannels(channelTree.getSelectedChannels(), new AsyncCallback<Void>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                GWT.log("Cannot save preferred channels", caught);
+            }
+
+            @Override
+            public void onSuccess(Void result) {
+                Window.alert("Lista canali salvata!");
+                
+            }
+        });
     }
 }

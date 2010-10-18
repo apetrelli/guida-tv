@@ -39,7 +39,6 @@ public class ChannelTree extends Composite {
 
     public void init(ChannelService service) {
         this.service = service;
-        Set<String> selectedChannels = service.getDefaultSelectedChannels();
         for (Region region : service.getRegions()) {
             TreeItem regionItem = new TreeItem(new Label(region.getName()));
             tree.addItem(regionItem);
@@ -49,7 +48,6 @@ public class ChannelTree extends Composite {
                 for (Channel channel: service.getChannels(network)) {
                     CheckBox checkbox = new CheckBox(channel.getName());
                     channel2checkbox.put(channel.getCode(), checkbox);
-                    checkbox.setValue(selectedChannels.contains(channel.getCode()));
                     TreeItem channelItem = new TreeItem(checkbox);
                     networkItem.addItem(channelItem);
                 }
@@ -65,5 +63,11 @@ public class ChannelTree extends Composite {
             }
         }
         return channels;        
+    }
+    
+    public void setSelectedChannels(Set<String> channels) {
+        for (Map.Entry<String, CheckBox> entry: channel2checkbox.entrySet()) {
+            entry.getValue().setValue(channels.contains(entry.getKey()));
+        }
     }
 }

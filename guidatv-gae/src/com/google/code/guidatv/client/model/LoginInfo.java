@@ -1,6 +1,7 @@
 package com.google.code.guidatv.client.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class LoginInfo implements Serializable{
 
@@ -11,18 +12,21 @@ public class LoginInfo implements Serializable{
     private String url;
     
     private String linkLabel;
+    
+    private Set<String> preferredChannels;
 
     public LoginInfo() {
     }
     
-    public LoginInfo(String nickname, String url, String linkLabel) {
-        init(nickname, url, linkLabel);
+    public LoginInfo(String nickname, String url, String linkLabel, Set<String> preferredChannels) {
+        init(nickname, url, linkLabel, preferredChannels);
     }
 
-    public void init(String nickname, String url, String linkLabel) {
+    public void init(String nickname, String url, String linkLabel, Set<String> preferredChannels) {
         this.nickname = nickname;
         this.url = url;
         this.linkLabel = linkLabel;
+        this.preferredChannels = preferredChannels;
     }
 
     public String getNickname() {
@@ -37,5 +41,8 @@ public class LoginInfo implements Serializable{
         return linkLabel;
     }
     
+    public Set<String> getPreferredChannels() {
+        return preferredChannels;
+    }
     
 }
