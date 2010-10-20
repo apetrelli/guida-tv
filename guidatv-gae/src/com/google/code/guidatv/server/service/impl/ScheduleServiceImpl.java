@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.Schedule;
 import com.google.code.guidatv.server.service.ScheduleService;
+import com.google.code.guidatv.server.service.impl.italy.generalistic.MediasetBaseScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.RaiScheduleService;
 
 public class ScheduleServiceImpl implements ScheduleService {
@@ -16,6 +17,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleServiceImpl() {
         code2service = new HashMap<String, ScheduleService>();
         ScheduleService raiService = new RaiScheduleService();
+        ScheduleService mediasetBaseService = new MediasetBaseScheduleService();
         code2service.put("RaiUno", raiService);
         code2service.put("RaiDue", raiService);
         code2service.put("RaiTre", raiService);
@@ -31,6 +33,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("RaiGulp", raiService);
         code2service.put("RaiEDU2", raiService);
         code2service.put("EuroNews", raiService);
+        code2service.put("C5", mediasetBaseService);
+        code2service.put("I1", mediasetBaseService);
+        code2service.put("R4", mediasetBaseService);
     }
 
     @Override

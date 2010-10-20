@@ -31,6 +31,7 @@ public class ChannelServiceImpl implements ChannelService{
         network2channels = new LinkedHashMap<String, List<Channel>>();
         region2networks.put("it_IT", networks);
         addRaiChannels(networks);
+        addMediasetChannels(networks);
         code2channel = new LinkedHashMap<String, Channel>();
         for (List<Channel> chns: network2channels.values()) {
             for (Channel channel: chns) {
@@ -41,6 +42,9 @@ public class ChannelServiceImpl implements ChannelService{
         defaultSelectedChannels.add("RaiUno");
         defaultSelectedChannels.add("RaiDue");
         defaultSelectedChannels.add("RaiTre");
+        defaultSelectedChannels.add("C5");
+        defaultSelectedChannels.add("I1");
+        defaultSelectedChannels.add("R4");
     }
 
     @Override
@@ -87,6 +91,15 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("Yoyo", "Rai Yoyo", "children", "it_IT", "Rai"));
         channels.add(new Channel("EuroNews", "Euronews", "news", "it_IT", "Rai"));
         network2channels.put("Rai", channels);
+    }
+
+    private void addMediasetChannels(List<String> networks) {
+        networks.add("Mediaset");
+        List<Channel> channels = new ArrayList<Channel>();
+        channels.add(new Channel("C5", "Canale 5", "generalistic", "it_IT", "Mediaset"));
+        channels.add(new Channel("I1", "Italia 1", "generalistic", "it_IT", "Mediaset"));
+        channels.add(new Channel("R4", "Rete 4", "generalistic", "it_IT", "Mediaset"));
+        network2channels.put("Mediaset", channels);
     }
 
 }
