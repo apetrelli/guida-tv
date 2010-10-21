@@ -45,7 +45,7 @@ public class ScheduleWidget extends Composite {
             containerPanel.add(scheduleTable);
             DateTimeFormat format = DateTimeFormat
                     .getFormat(PredefinedFormat.HOUR24_MINUTE);
-            scheduleTable.clear();
+            scheduleTable.removeAllRows();
             scheduleTable.setCornerWidget(new Label("Ora"));
             int i = 0;
             for (Channel channel : schedule.getChannels()) {
@@ -134,6 +134,8 @@ public class ScheduleWidget extends Composite {
                 loadSchedule();
             }
         });
+        containerPanel.clear();
+        containerPanel.add(loading);
         scheduleService.getLoginInfo(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 
             @Override
