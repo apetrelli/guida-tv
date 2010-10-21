@@ -40,6 +40,8 @@ public class DoubleEntryTable extends Composite {
 
     private int minimumRowSize;
 
+    private int minimumColumnSize;
+
     interface Binder extends UiBinder<Widget, DoubleEntryTable> {
     }
 
@@ -71,6 +73,10 @@ public class DoubleEntryTable extends Composite {
 
     public void setMinimumRowSize(int minimumRowSize) {
         this.minimumRowSize = minimumRowSize;
+    }
+    
+    public void setMinimumColumnSize(int minimumColumnSize) {
+        this.minimumColumnSize = minimumColumnSize;
     }
 
     public void setCornerWidget(Widget widget) {
@@ -105,6 +111,13 @@ public class DoubleEntryTable extends Composite {
         headerRowTable.clear();
         headerColumnTable.clear();
         contentTable.clear();
+    }
+    
+    public void removeAllRows() {
+        cornerTable.removeAllRows();
+        headerRowTable.removeAllRows();
+        headerColumnTable.removeAllRows();
+        contentTable.removeAllRows();
     }
 
     public RowFormatter getContentRowFormatter() {
@@ -161,8 +174,12 @@ public class DoubleEntryTable extends Composite {
     }
 
     private void resizeColumn(int column) {
+        Element parentCell = DOM.getParent(contentTable.getWidget(0, column).getElement());
+        int clientWidth = parentCell.getClientWidth();
+        if (clientWidth < minimumColumnSize) {
+            clientWidth = minimumColumnSize;
+        }
         headerRowTable.getWidget(0, column).setWidth(
-                Integer.toString(DOM.getParent(contentTable.getWidget(0, column).getElement())
-                        .getClientWidth()) + "px");
+                Integer.toString(clientWidth) + "px");
     }
 }
