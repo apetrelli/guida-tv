@@ -41,6 +41,11 @@ public class ScheduleWidget extends Composite {
     private final class UpdateCallback implements AsyncCallback<ScheduleResume> {
         @Override
         public void onSuccess(ScheduleResume schedule) {
+            Date now = new Date();
+            Date scheduleStart = schedule.getStart();
+            boolean isToday = now.getYear() == scheduleStart.getYear()
+                    && now.getMonth() == scheduleStart.getMonth()
+                    && now.getDate() == scheduleStart.getDate();
             containerPanel.clear();
             containerPanel.add(scheduleTable);
             DateTimeFormat format = DateTimeFormat
@@ -53,8 +58,11 @@ public class ScheduleWidget extends Composite {
                 i++;
             }
             int j = 0;
+            boolean selectionDone = false;
+            int selectedRow = -1;
             for (IntervalEntry interval : schedule.getIntervals()) {
-                scheduleTable.setColumnHeaderWidget(j, new Label(format.format(interval.getStart())));
+                Date intervalStart = interval.getStart();
+                scheduleTable.setColumnHeaderWidget(j, new Label(format.format(intervalStart)));
                 i = 0;
                 for (Channel channel : schedule.getChannels()) {
                     ChannelEntry entry = interval.getEntry(channel);
@@ -69,7 +77,14 @@ public class ScheduleWidget extends Composite {
                     scheduleTable.setWidget(j, i, transmissionPanel);
                     i++;
                 }
-                String styleName = j % 2 == 0 ? style.evenrow() : style.oddrow();
+                String styleName;
+                if (isToday && !selectionDone && (((now.getHours() - intervalStart.getHours()) * 60) + (now.getMinutes() - intervalStart.getMinutes())) <= 30) {
+                    selectionDone = true;
+                    styleName = style.nowrow();
+                    selectedRow = j;
+                } else {
+                    styleName = j % 2 == 0 ? style.evenrow() : style.oddrow();
+                }
                 scheduleTable.getContentRowFormatter().addStyleName(j,
                         styleName);
                 scheduleTable.getHeaderColumnRowFormatter().addStyleName(j, styleName);
@@ -77,6 +92,9 @@ public class ScheduleWidget extends Composite {
             }
             scheduleTable.setHeaderColumnWidth("50px");
             scheduleTable.layout();
+            if (selectedRow >= 0) {
+                scheduleTable.ensureRowVisible(selectedRow);
+            }
         }
 
         @Override
@@ -89,6 +107,8 @@ public class ScheduleWidget extends Composite {
         String oddrow();
 
         String evenrow();
+
+        String nowrow();
     }
 
     private static final Binder binder = GWT.create(Binder.class);

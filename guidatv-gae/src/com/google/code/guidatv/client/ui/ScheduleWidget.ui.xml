@@ -15,6 +15,9 @@ xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 		.evenrow {
 			background-color: #ccccff;
 		}
+		.nowrow {
+			background-color: #ffaaaa;
+		}
 		.inline {
 			float: left;
 			padding-left: 1em;
