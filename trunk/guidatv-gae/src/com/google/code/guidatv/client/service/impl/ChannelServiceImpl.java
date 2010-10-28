@@ -32,6 +32,7 @@ public class ChannelServiceImpl implements ChannelService{
         region2networks.put("it_IT", networks);
         addRaiChannels(networks);
         addMediasetChannels(networks);
+        addTelecomChannels(networks);
         code2channel = new LinkedHashMap<String, Channel>();
         for (List<Channel> chns: network2channels.values()) {
             for (Channel channel: chns) {
@@ -45,6 +46,7 @@ public class ChannelServiceImpl implements ChannelService{
         defaultSelectedChannels.add("C5");
         defaultSelectedChannels.add("I1");
         defaultSelectedChannels.add("R4");
+        defaultSelectedChannels.add("La7");
     }
 
     @Override
@@ -102,6 +104,14 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("Iris", "Iris", "movies", "it_IT", "Mediaset"));
         channels.add(new Channel("Boing", "Boing", "children", "it_IT", "Mediaset"));
         network2channels.put("Mediaset", channels);
+    }
+
+    private void addTelecomChannels(List<String> networks) {
+        networks.add("Telecom Italia Network");
+        List<Channel> channels = new ArrayList<Channel>();
+        channels.add(new Channel("La7", "La7", "generalistic", "it_IT", "Telecom Italia Network"));
+        channels.add(new Channel("La7d", "La7d", "generalistic", "it_IT", "Telecom Italia Network"));
+        network2channels.put("Telecom Italia Network", channels);
     }
 
 }

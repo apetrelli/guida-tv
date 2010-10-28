@@ -148,6 +148,10 @@ public class DoubleEntryTable extends Composite {
     }
 
     public void ensureRowVisible(int row) {
+        if (contentTable.getCellCount(0) <= 0) {
+            return;
+        }
+        
         contentBlock.ensureVisible(contentTable.getWidget(row, 0));
     }
     
@@ -162,6 +166,10 @@ public class DoubleEntryTable extends Composite {
     }
 
     private void resizeRow(int row) {
+        if (contentTable.getCellCount(0) <= 0) {
+            return;
+        }
+        
         Element parentCell = DOM.getParent(contentTable.getWidget(row, 0).getElement());
         int clientHeight = parentCell.getClientHeight();
         if (clientHeight < minimumRowSize) {
