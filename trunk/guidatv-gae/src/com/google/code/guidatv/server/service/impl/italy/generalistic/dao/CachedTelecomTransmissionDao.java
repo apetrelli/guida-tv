@@ -1,5 +1,7 @@
 package com.google.code.guidatv.server.service.impl.italy.generalistic.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +37,12 @@ public class CachedTelecomTransmissionDao implements TelecomTransmissionDao {
 
     @Override
     public Map<String, List<Transmission>> getTransmissions(Date day) {
-        Map<String, List<Transmission>> retValue = (Map<String, List<Transmission>>) cache.get(day);
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String key = "Telecom" + format.format(day);
+        Map<String, List<Transmission>> retValue = (Map<String, List<Transmission>>) cache.get(key);
         if (retValue == null) {
             retValue = dao.getTransmissions(day);
-            cache.put(day, retValue);
+            cache.put(key, retValue);
         }
         return retValue;
     }

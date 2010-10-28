@@ -1,5 +1,7 @@
 package com.google.code.guidatv.server.service.impl.italy.generalistic.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,15 +37,17 @@ public class CachedIrisTransmissionDao implements IrisTransmissionDao {
     
     @Override
     public List<Transmission> getTransmissions(Date day) {
-        List<Transmission> retValue = (List<Transmission>) cache.get(day);
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String key = "Iris" + format.format(day);
+        List<Transmission> retValue = (List<Transmission>) cache.get(key);
         if (retValue == null) {
             Map<Date, List<Transmission>> transmissionMap = dao.getTransmissions(day);
             if (transmissionMap != null) {
                 for (Map.Entry<Date, List<Transmission>> entry : transmissionMap.entrySet()) {
-                    cache.put(entry.getKey(), entry.getValue());
+                    cache.put("Iris" + format.format(entry.getKey()), entry.getValue());
                 }
             }
-            retValue = (List<Transmission>) cache.get(day);
+            retValue = (List<Transmission>) cache.get(key);
         }
         return retValue;
     }
