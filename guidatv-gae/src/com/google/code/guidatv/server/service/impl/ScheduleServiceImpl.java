@@ -11,6 +11,7 @@ import com.google.code.guidatv.server.service.impl.italy.generalistic.BoingSched
 import com.google.code.guidatv.server.service.impl.italy.generalistic.IrisScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.MediasetBaseScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.RaiScheduleService;
+import com.google.code.guidatv.server.service.impl.italy.generalistic.TelecomScheduleService;
 
 public class ScheduleServiceImpl implements ScheduleService {
 
@@ -20,6 +21,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service = new HashMap<String, ScheduleService>();
         ScheduleService raiService = new RaiScheduleService();
         ScheduleService mediasetBaseService = new MediasetBaseScheduleService();
+        ScheduleService telecomService = new TelecomScheduleService();
         code2service.put("RaiUno", raiService);
         code2service.put("RaiDue", raiService);
         code2service.put("RaiTre", raiService);
@@ -40,6 +42,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("R4", mediasetBaseService);
         code2service.put("Iris", new IrisScheduleService());
         code2service.put("Boing", new BoingScheduleService());
+        code2service.put("La7", telecomService);
+        code2service.put("La7d", telecomService);
     }
 
     @Override
