@@ -33,6 +33,7 @@ public class ChannelServiceImpl implements ChannelService{
         addRaiChannels(networks);
         addMediasetChannels(networks);
         addTelecomChannels(networks);
+        addSkyChannels(networks);
         code2channel = new LinkedHashMap<String, Channel>();
         for (List<Channel> chns: network2channels.values()) {
             for (Channel channel: chns) {
@@ -112,6 +113,13 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("La7", "La7", "generalistic", "it_IT", "Telecom Italia Network"));
         channels.add(new Channel("La7d", "La7d", "generalistic", "it_IT", "Telecom Italia Network"));
         network2channels.put("Telecom Italia Network", channels);
+    }
+
+    private void addSkyChannels(List<String> networks) {
+        networks.add("Sky");
+        List<Channel> channels = new ArrayList<Channel>();
+        channels.add(new Channel("6280", "Cielo", "generalistic", "it_IT", "Sky"));
+        network2channels.put("Sky", channels);
     }
 
 }
