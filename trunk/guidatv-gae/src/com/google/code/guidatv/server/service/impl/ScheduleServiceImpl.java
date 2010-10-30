@@ -11,6 +11,7 @@ import com.google.code.guidatv.server.service.impl.italy.generalistic.BoingSched
 import com.google.code.guidatv.server.service.impl.italy.generalistic.IrisScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.MediasetBaseScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.RaiScheduleService;
+import com.google.code.guidatv.server.service.impl.italy.generalistic.SkyScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.TelecomScheduleService;
 
 public class ScheduleServiceImpl implements ScheduleService {
@@ -44,6 +45,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("Boing", new BoingScheduleService());
         code2service.put("La7", telecomService);
         code2service.put("La7d", telecomService);
+        code2service.put("6280", new SkyScheduleService());
     }
 
     @Override
