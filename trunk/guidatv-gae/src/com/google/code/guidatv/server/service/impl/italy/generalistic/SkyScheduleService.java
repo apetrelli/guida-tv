@@ -11,8 +11,7 @@ import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.SkyTra
 
 public class SkyScheduleService extends AbstractScheduleService {
 
-//    private SkyTransmissionDao dao = new CachedSkyTransmissionDao(new SkyTransmissionDaoImpl());
-    private SkyTransmissionDao dao = new SkyTransmissionDaoImpl();
+    private SkyTransmissionDao dao = new CachedSkyTransmissionDao(new SkyTransmissionDaoImpl());
 
     protected List<Transmission> getTransmissionsByDate(Channel channel,
             Date currentDate) {
