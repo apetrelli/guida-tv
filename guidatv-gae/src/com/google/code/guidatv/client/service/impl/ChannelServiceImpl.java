@@ -34,6 +34,7 @@ public class ChannelServiceImpl implements ChannelService{
         addMediasetChannels(networks);
         addTelecomChannels(networks);
         addSkyChannels(networks);
+        addDNEChannels(networks);
         code2channel = new LinkedHashMap<String, Channel>();
         for (List<Channel> chns: network2channels.values()) {
             for (Channel channel: chns) {
@@ -108,11 +109,11 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     private void addTelecomChannels(List<String> networks) {
-        networks.add("Telecom Italia Network");
+        networks.add("Telecom Italia Media");
         List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel("La7", "La7", "generalistic", "it_IT", "Telecom Italia Network"));
-        channels.add(new Channel("La7d", "La7d", "generalistic", "it_IT", "Telecom Italia Network"));
-        network2channels.put("Telecom Italia Network", channels);
+        channels.add(new Channel("La7", "La7", "generalistic", "it_IT", "Telecom Italia Media"));
+        channels.add(new Channel("La7d", "La7d", "generalistic", "it_IT", "Telecom Italia Media"));
+        network2channels.put("Telecom Italia Media", channels);
     }
 
     private void addSkyChannels(List<String> networks) {
@@ -120,6 +121,13 @@ public class ChannelServiceImpl implements ChannelService{
         List<Channel> channels = new ArrayList<Channel>();
         channels.add(new Channel("6280", "Cielo", "generalistic", "it_IT", "Sky"));
         network2channels.put("Sky", channels);
+    }
+
+    private void addDNEChannels(List<String> networks) {
+        networks.add("Discovery Networks Europe");
+        List<Channel> channels = new ArrayList<Channel>();
+        channels.add(new Channel("DNERealTime", "Real Time", "generalistic", "it_IT", "Discovery Networks Europe"));
+        network2channels.put("Discovery Networks Europe", channels);
     }
 
 }

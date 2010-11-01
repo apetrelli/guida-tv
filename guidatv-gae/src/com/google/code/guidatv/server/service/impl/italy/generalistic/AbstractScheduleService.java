@@ -14,20 +14,42 @@ import com.google.code.guidatv.server.service.ScheduleService;
 public abstract class AbstractScheduleService implements ScheduleService {
 
     protected static final int ONE_DAY = 24 * 60 * 60 * 1000;
+    
+    private int dayStartOffsetMinutes;
+    
+    private TimeZone timeZone;
+    
+    public AbstractScheduleService() {
+        this(6*60, TimeZone.getTimeZone("Europe/Rome"));
+    }
+    
 
+    public AbstractScheduleService(int dayStartOffsetMinutes, TimeZone timeZone) {
+        this.dayStartOffsetMinutes = dayStartOffsetMinutes;
+        this.timeZone = timeZone;
+    }
+    
     @Override
     public Schedule getSchedule(Channel channel, Date day) {
-        return getSchedule(channel, day, new Date(day.getTime() + ONE_DAY));
+        Calendar cal = Calendar.getInstance(timeZone);
+        cal.setTime(day);
+        cal.add(Calendar.DATE, 1);
+        cal.add(Calendar.MILLISECOND, -1); // The last millisecond of the day after.
+        return getSchedule(channel, day, cal.getTime());
     }
+    
     public Schedule getSchedule(Channel channel, Date start, Date end) {
-        Date daoStart = calculateDaoDate(start);
-        Date daoEnd = calculateDaoDate(end);
+        Date daoStart = calculateDaoDateStart(start);
+        Date daoEnd = calculateDaoDateEnd(end);
 
         List<Transmission> transmissions = new ArrayList<Transmission>();
-        Date currentDate = daoStart;
-        while (currentDate.compareTo(daoEnd) <= 0) {
-            fillTransmissions(channel, currentDate, start, end, transmissions);
-            currentDate = new Date(currentDate.getTime() + ONE_DAY);
+        Calendar cal = Calendar.getInstance(timeZone);
+        cal.setTime(daoStart);
+        Calendar endCal = Calendar.getInstance(timeZone);
+        endCal.setTime(daoEnd);
+        while (cal.compareTo(endCal) <= 0) {
+            fillTransmissions(channel, cal.getTime(), start, end, transmissions);
+            cal.add(Calendar.DATE, 1);
         }
 
         return new Schedule(channel, transmissions);
@@ -39,7 +61,7 @@ public abstract class AbstractScheduleService implements ScheduleService {
                 channel, currentDate);
         if (returnedTransmissions != null) {
             for (Transmission transmission : returnedTransmissions) {
-                if (transmission.getStart().compareTo(start) >= 0 && transmission.getStart().compareTo(end) < 0) {
+                if (transmission.getStart().compareTo(start) >= 0 && transmission.getStart().compareTo(end) <= 0) {
                     transmissions.add(transmission);
                 }
             }
@@ -49,18 +71,30 @@ public abstract class AbstractScheduleService implements ScheduleService {
     protected abstract List<Transmission> getTransmissionsByDate(Channel channel,
             Date currentDate);
     
-    private Date calculateDaoDate(Date start) {
+    private Date calculateDaoDateStart(Date start) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(start);
-        cal.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+        cal.setTimeZone(timeZone);
         int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        if (hour < 6) {
+        if (dayStartOffsetMinutes > 0 && (hour*60 + minute) < dayStartOffsetMinutes) {
             cal.add(Calendar.DATE, -1);
         }
+        return cal.getTime();
+    }
+    
+    private Date calculateDaoDateEnd(Date start) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.setTimeZone(timeZone);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
 }
