@@ -8,6 +8,7 @@ import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.Schedule;
 import com.google.code.guidatv.server.service.ScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.BoingScheduleService;
+import com.google.code.guidatv.server.service.impl.italy.generalistic.DNERealTimeScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.IrisScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.MediasetBaseScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.RaiScheduleService;
@@ -46,6 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("La7", telecomService);
         code2service.put("La7d", telecomService);
         code2service.put("6280", new SkyScheduleService());
+        code2service.put("DNERealTime", new DNERealTimeScheduleService());
     }
 
     @Override

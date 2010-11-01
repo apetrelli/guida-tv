@@ -76,9 +76,6 @@ public class SkyTransmissionDaoImpl implements SkyTransmissionDao {
                         cal.set(Calendar.MINUTE, 0);
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.MILLISECOND, 0);
-                        if (hours < 6 || (hours == 6 && minute == 0 && i != 0)) {
-                            cal.add(Calendar.DAY_OF_YEAR, 1);
-                        }
                         cal.set(Calendar.HOUR_OF_DAY,hours);
                         cal.set(Calendar.MINUTE, minute);
                         transmissions.add(new Transmission(transmissionJson
