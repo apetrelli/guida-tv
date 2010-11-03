@@ -1,5 +1,6 @@
 package com.google.code.guidatv.server;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +15,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.code.guidatv.client.ScheduleRemoteService;
 import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.LoginInfo;
-import com.google.code.guidatv.client.model.ScheduleResume;
+import com.google.code.guidatv.client.model.Schedule;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
 import com.google.code.guidatv.server.model.PMF;
@@ -53,17 +54,15 @@ public class ScheduleRemoteServiceServlet extends RemoteServiceServlet implement
     }
 
     @Override
-    public ScheduleResume getDayScheduleResume(Date day, Set<String> channels) {
-        Date start = new Date(day.getTime());
-        Date end = new Date(day.getTime() + 24*60*60*1000);
-        ScheduleResume resume = new ScheduleResume(start, end, 30);
+    public List<Schedule> getDaySchedule(Date day, Set<String> channels) {
+        List<Schedule> retValue = new ArrayList<Schedule>();
         for (String channelCode: channels) {
             Channel channel = channelService.getChannelByCode(channelCode);
             if (channel != null) {
-                resume.add(service.getSchedule(channel, day));
+                retValue.add(service.getSchedule(channel, day));
             }
         }
-        return resume;
+        return retValue;
     }
 
     @Override
