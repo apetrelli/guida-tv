@@ -12,17 +12,17 @@ import com.google.code.guidatv.client.model.Region;
 import com.google.code.guidatv.client.service.ChannelService;
 
 public class ChannelServiceImpl implements ChannelService{
-    
+
     private List<Region> regions;
-    
+
     private Map<String, List<String>> region2networks;
-    
+
     private Map<String, List<Channel>> network2channels;
-    
+
     private Map<String, Channel> code2channel;
-    
+
     private Set<String> defaultSelectedChannels;
-    
+
     public ChannelServiceImpl() {
         regions = new ArrayList<Region>();
         regions.add(new Region("it_IT", "Italia"));
@@ -83,12 +83,12 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("RaiDue", "Rai 2", "generalistic", "it_IT", "Rai"));
         channels.add(new Channel("RaiTre", "Rai 3", "generalistic", "it_IT", "Rai"));
         channels.add(new Channel("Rai4", "Rai 4", "movies/series", "it_IT", "Rai"));
+        channels.add(new Channel("Extra", "Rai 5", "retakes", "it_IT", "Rai"));
         channels.add(new Channel("RaiNews", "Rai News 24", "news", "it_IT", "Rai"));
         channels.add(new Channel("RaiSport1", "Rai Sport 1", "sport", "it_IT", "Rai"));
         channels.add(new Channel("RaiSport2", "Rai Sport 2", "sport", "it_IT", "Rai"));
         channels.add(new Channel("RaiEducational", "Rai Scuola", "education", "it_IT", "Rai"));
         channels.add(new Channel("RaiEDU2", "Rai Storia", "education", "it_IT", "Rai"));
-        channels.add(new Channel("Extra", "Rai Extra", "retakes", "it_IT", "Rai"));
         channels.add(new Channel("Premium", "Rai Premium", "retakes", "it_IT", "Rai"));
         channels.add(new Channel("CinemaWorld", "Rai Movie", "movies", "it_IT", "Rai"));
         channels.add(new Channel("RaiGulp", "Rai Gulp", "children", "it_IT", "Rai"));

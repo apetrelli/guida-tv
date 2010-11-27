@@ -28,11 +28,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("RaiDue", raiService);
         code2service.put("RaiTre", raiService);
         code2service.put("Rai4", raiService);
+        code2service.put("Extra", raiService);
         code2service.put("RaiNews", raiService);
         code2service.put("RaiSport1", raiService);
         code2service.put("RaiSport2", raiService);
         code2service.put("RaiEducational", raiService);
-        code2service.put("Extra", raiService);
         code2service.put("Premium", raiService);
         code2service.put("Yoyo", raiService);
         code2service.put("CinemaWorld", raiService);
