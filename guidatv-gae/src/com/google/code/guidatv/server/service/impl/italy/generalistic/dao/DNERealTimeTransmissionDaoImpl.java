@@ -27,9 +27,9 @@ import com.google.code.guidatv.server.service.GuidaTvException;
 
 public class DNERealTimeTransmissionDaoImpl implements DNERealTimeTransmissionDao {
 
-    private final Logger log = Logger.getLogger(getClass().getName()); 
-    
-    private String pattern = "http://www.realtimetv.it/guidatv/guidatv.php?type={0}&day={1,number,0000}-{2,number,00}-{3,number,00}";
+    private final Logger log = Logger.getLogger(getClass().getName());
+
+    private String pattern = "http://www.realtimetv.it/guidatv/guidatv.php?type={0}&day={1,number,0000}{2,number,00}{3,number,00}";
 
     public List<Transmission> getTransmissions(Date day) {
         MessageFormat format = new MessageFormat(pattern);
