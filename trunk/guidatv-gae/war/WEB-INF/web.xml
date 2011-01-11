@@ -10,6 +10,20 @@
         <servlet-name>schedule</servlet-name>
         <servlet-class>com.google.code.guidatv.server.ScheduleRemoteServiceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RestletServlet</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>com.google.code.guidatv.server.service.rest.GuidaTvApplication</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Catch all requests -->
+    <servlet-mapping>
+        <servlet-name>RestletServlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>schedule</servlet-name>
         <url-pattern>/com.google.code.guidatv.GuidaTv/schedule</url-pattern>

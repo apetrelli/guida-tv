@@ -6,11 +6,10 @@ import java.util.Set;
 
 import com.google.code.guidatv.client.model.LoginInfo;
 import com.google.code.guidatv.client.model.Schedule;
-import com.google.code.guidatv.client.model.ScheduleResume;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ScheduleRemoteServiceAsync {
-    
+
     void getLoginInfo(String requestUri, AsyncCallback<LoginInfo> callback);
 
     void savePreferredChannels(Set<String> channels,
