@@ -3,6 +3,11 @@ package com.google.code.guidatv.client.ui;
 import java.util.Date;
 import java.util.List;
 
+import org.restlet.client.data.MediaType;
+import org.restlet.client.data.Preference;
+import org.restlet.client.resource.ClientResource;
+import org.restlet.client.resource.Result;
+
 import com.google.code.guidatv.client.ScheduleRemoteService;
 import com.google.code.guidatv.client.ScheduleRemoteServiceAsync;
 import com.google.code.guidatv.client.model.Channel;
@@ -15,12 +20,14 @@ import com.google.code.guidatv.client.model.Transmission;
 import com.google.code.guidatv.client.pics.Pics;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
+import com.google.code.guidatv.client.service.rest.LoginInfoResourceProxy;
 import com.google.code.guidatv.client.ui.widget.ChannelTree;
 import com.google.code.guidatv.client.ui.widget.DoubleEntryTable;
 import com.google.code.guidatv.client.ui.widget.ResizableVerticalPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.resources.client.CssResource;
@@ -41,9 +48,9 @@ import com.google.gwt.user.datepicker.client.DateBox;
 public class ScheduleWidget extends Composite {
 
     private final class UpdateCallback implements AsyncCallback<List<Schedule>> {
-        
+
         private Date day;
-        
+
         public UpdateCallback(Date day) {
             this.day = day;
         }
@@ -130,7 +137,7 @@ public class ScheduleWidget extends Composite {
 
     private ScheduleRemoteServiceAsync scheduleService = GWT
             .create(ScheduleRemoteService.class);
-    
+
     private ChannelService channelService;
 
     @UiField
@@ -163,7 +170,7 @@ public class ScheduleWidget extends Composite {
                 .getFormat("dd/MM/yyyy")));
         dateBox.setValue(new Date());
         updateButton.addClickHandler(new ClickHandler() {
-            
+
             @Override
             public void onClick(ClickEvent event) {
                 loadSchedule();
@@ -171,7 +178,17 @@ public class ScheduleWidget extends Composite {
         });
         containerPanel.clear();
         containerPanel.add(loading);
-        scheduleService.getLoginInfo(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+
+        LoginInfoResourceProxy loginInfoResource = GWT
+                .create(LoginInfoResourceProxy.class);
+        ClientResource clientResource = loginInfoResource.getClientResource();
+        clientResource.setReference("/rest/login-info?requestUri=" + URL.encode(GWT.getHostPageBaseURL()));
+        clientResource
+                .getClientInfo()
+                .getAcceptedMediaTypes()
+                .add(new Preference<MediaType>(
+                        MediaType.APPLICATION_JAVA_OBJECT_GWT));
+        loginInfoResource.retrieve(new Result<LoginInfo>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -203,7 +220,7 @@ public class ScheduleWidget extends Composite {
                 channelTree.getSelectedChannels(),
                 new UpdateCallback(date));
     }
-    
+
     @UiHandler("saveButton")
     void onSaveButtonClick(ClickEvent event) {
         scheduleService.savePreferredChannels(channelTree.getSelectedChannels(), new AsyncCallback<Void>() {
@@ -216,7 +233,7 @@ public class ScheduleWidget extends Composite {
             @Override
             public void onSuccess(Void result) {
                 Window.alert("Lista canali salvata!");
-                
+
             }
         });
     }
