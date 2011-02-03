@@ -15,7 +15,7 @@ public class IntervalEntry implements Serializable, IsSerializable {
     public IntervalEntry() {
     }
 
-    IntervalEntry(Date start) {
+    public IntervalEntry(Date start) {
         init(start);
     }
 
