@@ -74,7 +74,7 @@ public class DoubleEntryTable extends Composite {
     public void setMinimumRowSize(int minimumRowSize) {
         this.minimumRowSize = minimumRowSize;
     }
-    
+
     public void setMinimumColumnSize(int minimumColumnSize) {
         this.minimumColumnSize = minimumColumnSize;
     }
@@ -99,7 +99,7 @@ public class DoubleEntryTable extends Composite {
 
                 @Override
                 public void onResize(ResizeEvent event) {
-                    resizeRow(row);
+                    resizeRow(row, 0);
                     resizeColumn(column);
                 }
             });
@@ -112,7 +112,7 @@ public class DoubleEntryTable extends Composite {
         headerColumnTable.clear();
         contentTable.clear();
     }
-    
+
     public void removeAllRows() {
         cornerTable.removeAllRows();
         headerRowTable.removeAllRows();
@@ -138,23 +138,61 @@ public class DoubleEntryTable extends Composite {
     }
 
     public void layout() {
-        resizeTable();
-        for (int i=0; i < contentTable.getRowCount(); i++) {
-            resizeRow(i);
-        }
-        for (int i=0; i < contentTable.getCellCount(0); i++) {
-            resizeColumn(i);
+        try {
+            resizeTable();
+            for (int i=0; i < contentTable.getRowCount(); i++) {
+                resizeRow(i, 0);
+            }
+            for (int i=0; i < contentTable.getCellCount(0); i++) {
+                resizeColumn(i);
+            }
+        } catch (RuntimeException e) {
+            GWT.log("Uff", e);
+            throw e;
         }
     }
 
-    public void ensureRowVisible(int row) {
+    public void layoutByColumn(int column) {
+        resizeTable();
+        for (int i=0; i < contentTable.getRowCount(); i++) {
+            resizeRow(i, column);
+        }
+        resizeColumn(column);
+    }
+
+    public void resizeRow(int row, int columnToUse) {
         if (contentTable.getCellCount(0) <= 0) {
             return;
         }
-        
+
+        Element parentCell = DOM.getParent(contentTable.getWidget(row, columnToUse).getElement());
+        int clientHeight = parentCell.getClientHeight();
+        if (clientHeight < minimumRowSize) {
+            clientHeight = minimumRowSize;
+            parentCell.getStyle().setHeight(clientHeight, Unit.PX);
+        }
+        headerColumnTable.getWidget(row, 0).setHeight(
+                Integer.toString(clientHeight) + "px");
+    }
+
+    public void resizeColumn(int column) {
+        Element parentCell = DOM.getParent(contentTable.getWidget(0, column).getElement());
+        int clientWidth = parentCell.getClientWidth();
+        if (clientWidth < minimumColumnSize) {
+            clientWidth = minimumColumnSize;
+        }
+        headerRowTable.getWidget(0, column).setWidth(
+                Integer.toString(clientWidth) + "px");
+    }
+
+    public void ensureRowVisible(int row, int column) {
+        if (contentTable.getCellCount(0) <= 0) {
+            return;
+        }
+
         contentBlock.ensureVisible(contentTable.getWidget(row, 0));
     }
-    
+
     private void setBodyHeight(String height) {
         contentBlock.setHeight(height);
         headerColumnBlock.setHeight(Integer.toString(contentBlock.getElement().getClientHeight()) + "px");
@@ -165,33 +203,8 @@ public class DoubleEntryTable extends Composite {
         headerRowBlock.setWidth(Integer.toString(contentBlock.getElement().getClientWidth()) + "px");
     }
 
-    private void resizeRow(int row) {
-        if (contentTable.getCellCount(0) <= 0) {
-            return;
-        }
-        
-        Element parentCell = DOM.getParent(contentTable.getWidget(row, 0).getElement());
-        int clientHeight = parentCell.getClientHeight();
-        if (clientHeight < minimumRowSize) {
-            clientHeight = minimumRowSize;
-            parentCell.getStyle().setHeight(clientHeight, Unit.PX);
-        }
-        headerColumnTable.getWidget(row, 0).setHeight(
-                Integer.toString(clientHeight) + "px");
-    }
-
     private void resizeTable() {
         setBodyHeight(Integer.toString(mainPanel.getOffsetHeight() - headerRowBlock.getOffsetHeight()) + "px");
         setBodyWidth(Integer.toString(mainPanel.getOffsetWidth() - headerColumnBlock.getOffsetWidth()) + "px");
-    }
-
-    private void resizeColumn(int column) {
-        Element parentCell = DOM.getParent(contentTable.getWidget(0, column).getElement());
-        int clientWidth = parentCell.getClientWidth();
-        if (clientWidth < minimumColumnSize) {
-            clientWidth = minimumColumnSize;
-        }
-        headerRowTable.getWidget(0, column).setWidth(
-                Integer.toString(clientWidth) + "px");
     }
 }
