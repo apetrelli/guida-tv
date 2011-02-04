@@ -34,21 +34,22 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.Transmission;
 import com.google.code.guidatv.server.service.GuidaTvException;
 
 public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
-    
+
     private final static class NamespaceContextImpl implements NamespaceContext {
         private final static String URI = "http://www.w3.org/1999/xhtml";
-        private final static String PREFIX = "ns"; 
+        private final static String PREFIX = "ns";
         private List<String> prefixes;
 
         public NamespaceContextImpl() {
             prefixes = new ArrayList<String>();
             prefixes.add(PREFIX);
         }
-        
+
         @SuppressWarnings("rawtypes")
         @Override
         public Iterator getPrefixes(String namespaceURI) {
@@ -77,11 +78,25 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
 
 
     private static final long ONE_DAY = 1000*60*60*24;
-    
-    private static final String BASE_URL = "http://www.la7.it/guidatv/index";
+
+    private Map<String, String> channel2url;
+
+    private Map<String, String> channel2path;
+
+    public TelecomTransmissionDaoImpl() {
+        channel2url = new HashMap<String, String>();
+        channel2url.put("La7", "http://www.la7.it/guidatv/index");
+        channel2url.put("La7d", "http://www.la7.it/guidatv/indexd");
+
+        channel2path = new HashMap<String, String>();
+        channel2path.put("La7", "//ns:DIV[@id='palinsesto_la7']/ns:DIV/ns:DIV//ns:LI");
+        channel2path.put("La7d", "//ns:DIV[@id='palinsesto_la7d']/ns:DIV/ns:DIV//ns:LI");
+    }
 
     @Override
-    public Map<String, List<Transmission>> getTransmissions(Date day) {
+    public List<Transmission> getTransmissions(Channel channel, Date day) {
+        String baseUrl = channel2url.get(channel.getCode());
+        String path = channel2path.get(channel.getCode());
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Rome");
         Calendar cal = Calendar.getInstance(timeZone);
         cal.setTime(day);
@@ -99,7 +114,6 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
         if (daysAfterToday < 0 || daysAfterToday > 6) {
             return null;
         }
-        Map<String, List<Transmission>> retValue = new HashMap<String, List<Transmission>>();
         String htmlNumber;
         if (daysAfterToday == 0) {
             htmlNumber = "";
@@ -108,7 +122,7 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
         }
         Reader reader = null;
         try {
-            URL url = new URL(BASE_URL + htmlNumber + ".html");
+            URL url = new URL(baseUrl + htmlNumber + ".html");
             InputStream is = url.openStream();
             reader = new InputStreamReader(is, "UTF-8");
             DOMParser parser = new DOMParser();
@@ -118,16 +132,9 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
             xpath.setNamespaceContext(new NamespaceContextImpl());
             DecimalFormat numberFormat = (DecimalFormat) NumberFormat.getInstance();
             numberFormat.applyPattern("00");
-            XPathExpression dayExpression = xpath.compile("//ns:DIV[@id='palinsesto_la7']/ns:DIV/ns:DIV//ns:LI");
+            XPathExpression dayExpression = xpath.compile(path);
             NodeList dayNodeList = (NodeList) dayExpression.evaluate(document, XPathConstants.NODESET);
-            retValue.put(
-                    "La7",
-                    getTransmissions(day, dayNodeList, numberFormat, xpath));
-            dayExpression = xpath.compile("//ns:DIV[@id='palinsesto_la7d']/ns:DIV/ns:DIV//ns:LI");
-            dayNodeList = (NodeList) dayExpression.evaluate(document, XPathConstants.NODESET);
-            retValue.put(
-                    "La7d",
-                    getTransmissions(day, dayNodeList, numberFormat, xpath));
+            return getTransmissions(day, dayNodeList, numberFormat, xpath);
         } catch (MalformedURLException e) {
             throw new GuidaTvException(e);
         } catch (IOException e) {
@@ -147,7 +154,6 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
                 }
             }
         }
-        return retValue;
     }
 
     private List<Transmission> getTransmissions(Date day, NodeList nodeList,
@@ -163,7 +169,6 @@ public class TelecomTransmissionDaoImpl implements TelecomTransmissionDao {
         for (int i=0; i < nodeList.getLength(); i++) {
             Node item = nodeList.item(i);
             if (item instanceof Element) {
-                Element element = (Element) item;
                 NodeList elementChildren = item.getChildNodes();
                 for (int k=0; k < elementChildren.getLength(); k++) {
                     Node itemChild = elementChildren.item(k);

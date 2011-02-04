@@ -13,6 +13,7 @@ import net.sf.jsr107cache.CacheFactory;
 import net.sf.jsr107cache.CacheManager;
 
 import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
+import com.google.code.guidatv.client.model.Channel;
 import com.google.code.guidatv.client.model.Transmission;
 
 public class CachedTelecomTransmissionDao implements TelecomTransmissionDao {
@@ -36,12 +37,13 @@ public class CachedTelecomTransmissionDao implements TelecomTransmissionDao {
     }
 
     @Override
-    public Map<String, List<Transmission>> getTransmissions(Date day) {
+    public List<Transmission> getTransmissions(Channel channel, Date day) {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String key = "Telecom" + format.format(day);
-        Map<String, List<Transmission>> retValue = (Map<String, List<Transmission>>) cache.get(key);
+        String key = channel.getCode() + format.format(day);
+        @SuppressWarnings("unchecked")
+        List<Transmission> retValue = (List<Transmission>) cache.get(key);
         if (retValue == null) {
-            retValue = dao.getTransmissions(day);
+            retValue = dao.getTransmissions(channel, day);
             cache.put(key, retValue);
         }
         return retValue;
