@@ -1,6 +1,7 @@
 package com.google.code.guidatv.client.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,6 +60,11 @@ public class ChannelServiceImpl implements ChannelService{
     @Override
     public List<String> getNetworks(String regionCode) {
         return region2networks.get(regionCode);
+    }
+
+    @Override
+    public Collection<Channel> getChannels() {
+        return code2channel.values();
     }
 
     @Override
