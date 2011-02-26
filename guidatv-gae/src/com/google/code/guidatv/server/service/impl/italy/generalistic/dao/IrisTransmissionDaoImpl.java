@@ -32,7 +32,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.GuidaTvException;
 
 public class IrisTransmissionDaoImpl  {

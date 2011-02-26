@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Schedule;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Schedule;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.CachedMediasetBaseTransmissionDao;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.MediasetBaseTransmissionDao;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.MediasetBaseTransmissionDaoImpl;

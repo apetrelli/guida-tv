@@ -6,7 +6,7 @@ import org.restlet.client.resource.ClientProxy;
 import org.restlet.client.resource.Get;
 import org.restlet.client.resource.Result;
 
-import com.google.code.guidatv.client.model.Channel;
+import com.google.code.guidatv.model.Channel;
 
 public interface ChannelsResourceProxy extends ClientProxy {
 

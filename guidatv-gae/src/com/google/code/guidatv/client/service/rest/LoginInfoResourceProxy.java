@@ -4,7 +4,7 @@ import org.restlet.client.resource.ClientProxy;
 import org.restlet.client.resource.Get;
 import org.restlet.client.resource.Result;
 
-import com.google.code.guidatv.client.model.LoginInfo;
+import com.google.code.guidatv.model.LoginInfo;
 
 
 public interface LoginInfoResourceProxy extends ClientProxy {

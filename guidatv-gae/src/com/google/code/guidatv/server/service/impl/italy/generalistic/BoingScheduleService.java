@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Schedule;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Schedule;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.BoingTransmissionDao;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.BoingTransmissionDaoImpl;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.CachedBoingTransmissionDao;

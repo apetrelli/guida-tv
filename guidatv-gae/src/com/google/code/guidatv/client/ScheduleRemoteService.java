@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.google.code.guidatv.client.model.LoginInfo;
-import com.google.code.guidatv.client.model.Schedule;
+import com.google.code.guidatv.model.LoginInfo;
+import com.google.code.guidatv.model.Schedule;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

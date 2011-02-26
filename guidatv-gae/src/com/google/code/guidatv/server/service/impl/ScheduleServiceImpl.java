@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Schedule;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Schedule;
 import com.google.code.guidatv.server.service.ScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.BoingScheduleService;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.DNERealTimeScheduleService;

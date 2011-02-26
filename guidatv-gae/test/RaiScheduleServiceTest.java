@@ -4,12 +4,12 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.ChannelEntry;
-import com.google.code.guidatv.client.model.IntervalEntry;
-import com.google.code.guidatv.client.model.Schedule;
-import com.google.code.guidatv.client.model.ScheduleResume;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.ChannelEntry;
+import com.google.code.guidatv.model.IntervalEntry;
+import com.google.code.guidatv.model.Schedule;
+import com.google.code.guidatv.model.ScheduleResume;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.ScheduleService;
 import com.google.code.guidatv.server.service.impl.ScheduleServiceImpl;
 
