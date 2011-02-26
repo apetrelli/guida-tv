@@ -6,12 +6,12 @@
 	<classpathentry kind="lib" path="lib/advanced-components-2.0.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/json.jar"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.restlet.ext.servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.restlet.jar" sourcepath="/home/antonio/javadev/libs/restlet-gae-2.0.4/src/org.restlet"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.restlet.ext.gwt.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.restlet.ext.jackson.jar"/>
 	<classpathentry kind="lib" path="lib/org.restlet.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
