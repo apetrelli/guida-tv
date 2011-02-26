@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Transmission;
 
 public interface MediasetBaseTransmissionDao {
 

@@ -22,7 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.GuidaTvException;
 
 public class DNERealTimeTransmissionDaoImpl implements DNERealTimeTransmissionDao {

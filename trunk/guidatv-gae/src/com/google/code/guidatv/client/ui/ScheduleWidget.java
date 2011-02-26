@@ -13,10 +13,10 @@ import org.restlet.client.resource.Result;
 
 import com.google.code.guidatv.client.ScheduleRemoteService;
 import com.google.code.guidatv.client.ScheduleRemoteServiceAsync;
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.LoginInfo;
-import com.google.code.guidatv.client.model.Schedule;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.LoginInfo;
+import com.google.code.guidatv.model.Schedule;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.client.pics.Pics;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;

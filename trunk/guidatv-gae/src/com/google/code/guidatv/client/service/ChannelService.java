@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Region;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Region;
 
 public interface ChannelService {
 

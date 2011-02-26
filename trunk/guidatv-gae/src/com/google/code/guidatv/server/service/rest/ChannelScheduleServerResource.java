@@ -8,10 +8,10 @@ import java.util.Map;
 
 import org.restlet.resource.ServerResource;
 
-import com.google.code.guidatv.client.model.Schedule;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
-import com.google.code.guidatv.client.service.rest.ChannelScheduleResource;
+import com.google.code.guidatv.model.Schedule;
+import com.google.code.guidatv.rest.ChannelScheduleResource;
 import com.google.code.guidatv.server.service.ScheduleService;
 import com.google.code.guidatv.server.service.impl.ScheduleServiceImpl;
 

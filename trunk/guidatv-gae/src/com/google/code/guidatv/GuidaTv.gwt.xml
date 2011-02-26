@@ -4,4 +4,7 @@
     <inherits name="org.gwt.advanced.Grid"/>
     <inherits name="org.restlet.Restlet"/>
 	<entry-point class="com.google.code.guidatv.client.GuidaTv"/>
+    <source path="client" />
+    <source path="model" />
+    <source path="rest" />
 </module>

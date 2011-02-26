@@ -13,7 +13,7 @@ import net.sf.jsr107cache.CacheFactory;
 import net.sf.jsr107cache.CacheManager;
 
 import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Transmission;
 
 public class CachedIrisTransmissionDao implements IrisTransmissionDao {
 

@@ -1,6 +1,6 @@
 package com.google.code.guidatv.client.ui;
 
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.client.ui.widget.imported.DisclosurePanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

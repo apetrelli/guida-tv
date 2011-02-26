@@ -12,10 +12,10 @@ import org.restlet.resource.ServerResource;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.code.guidatv.client.model.LoginInfo;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
-import com.google.code.guidatv.client.service.rest.LoginInfoResource;
+import com.google.code.guidatv.model.LoginInfo;
+import com.google.code.guidatv.rest.LoginInfoResource;
 import com.google.code.guidatv.server.model.PMF;
 import com.google.code.guidatv.server.model.PreferredChannels;
 

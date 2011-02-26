@@ -5,8 +5,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Region;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Region;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

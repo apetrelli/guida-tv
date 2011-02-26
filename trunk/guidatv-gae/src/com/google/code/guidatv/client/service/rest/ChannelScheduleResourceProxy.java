@@ -4,7 +4,7 @@ import org.restlet.client.resource.ClientProxy;
 import org.restlet.client.resource.Get;
 import org.restlet.client.resource.Result;
 
-import com.google.code.guidatv.client.model.Schedule;
+import com.google.code.guidatv.model.Schedule;
 
 public interface ChannelScheduleResourceProxy extends ClientProxy {
 

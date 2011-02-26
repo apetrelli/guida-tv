@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import com.google.code.guidatv.client.model.Channel;
-import com.google.code.guidatv.client.model.Transmission;
+import com.google.code.guidatv.model.Channel;
+import com.google.code.guidatv.model.Transmission;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.CachedDNERealTimeTransmissionDao;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.DNERealTimeTransmissionDao;
 import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.DNERealTimeTransmissionDaoImpl;
