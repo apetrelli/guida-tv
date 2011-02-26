@@ -1,21 +1,39 @@
 package com.google.code.guidatv.server.service.rest;
 
-import java.util.Collection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
 import org.restlet.resource.ServerResource;
 
-import com.google.code.guidatv.client.model.Channel;
+import com.google.code.guidatv.client.model.Schedule;
 import com.google.code.guidatv.client.service.ChannelService;
 import com.google.code.guidatv.client.service.impl.ChannelServiceImpl;
-import com.google.code.guidatv.client.service.rest.ChannelsResource;
+import com.google.code.guidatv.client.service.rest.ChannelScheduleResource;
+import com.google.code.guidatv.server.service.ScheduleService;
+import com.google.code.guidatv.server.service.impl.ScheduleServiceImpl;
 
-public class ChannelScheduleServerResource extends ServerResource implements ChannelsResource {
+public class ChannelScheduleServerResource extends ServerResource implements ChannelScheduleResource {
 
     private ChannelService channelService = new ChannelServiceImpl();
 
+    private ScheduleService service = new ScheduleServiceImpl();
+
     @Override
-    public Collection<Channel> retrieve() {
-        return channelService.getChannels();
+    public Schedule retrieve() {
+        Map<String, Object> attributes = getRequestAttributes();
+        String channel = (String) attributes.get("channel");
+        String dateString = (String) attributes.get("date");
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date date;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return service.getSchedule(channelService.getChannelByCode(channel), date);
     }
 
 }
