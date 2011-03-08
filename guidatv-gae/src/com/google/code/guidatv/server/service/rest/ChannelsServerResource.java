@@ -1,6 +1,7 @@
 package com.google.code.guidatv.server.service.rest;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.restlet.resource.ServerResource;
 
@@ -14,8 +15,8 @@ public class ChannelsServerResource extends ServerResource implements ChannelsRe
     private ChannelService channelService = new ChannelServiceImpl();
 
     @Override
-    public Collection<Channel> retrieve() {
-        return channelService.getChannels();
+    public List<Channel> retrieve() {
+        return new ArrayList<Channel>(channelService.getChannels());
     }
 
 }
