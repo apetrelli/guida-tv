@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, GuidaTv!</string>
+    <string name="app_name">guidatv-android</string>
+<string name="no_channels">No channels found</string>
+<string name="channels_button">Channels</string>
+</resources>
