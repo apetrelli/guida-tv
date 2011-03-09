@@ -190,7 +190,7 @@ public class DoubleEntryTable extends Composite {
             return;
         }
 
-        contentBlock.ensureVisible(contentTable.getWidget(row, 0));
+        contentBlock.ensureVisible(contentTable.getWidget(row, column));
     }
 
     private void setBodyHeight(String height) {
