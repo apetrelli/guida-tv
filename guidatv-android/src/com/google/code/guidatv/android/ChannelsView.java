@@ -1,17 +1,21 @@
 package com.google.code.guidatv.android;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import android.app.ListActivity;
+import android.app.ExpandableListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.SimpleExpandableListAdapter;
 
 import com.google.code.guidatv.android.rest.GuidaTvService;
 import com.google.code.guidatv.model.Channel;
 
-public class ChannelsView extends ListActivity
+public class ChannelsView extends ExpandableListActivity
 {
 
     private GuidaTvService mGuidaTvService;
@@ -42,13 +46,31 @@ public class ChannelsView extends ListActivity
         protected void onPostExecute(List<Channel> channels)
         {
             String[] channelArray = new String[channels.size()];
-            int i = 0;
+            List<Map<String, String>> networks = new ArrayList<Map<String,String>>();
+            List<List<Map<String, String>>> channelsList = new ArrayList<List<Map<String,String>>>();
+            String pastNetwork = null;
+            List<Map<String, String>> channelList = null;
             for (Channel channel : channels) {
-                channelArray[i] = channel.getName();
-                i++;
+                if (!channel.getNetwork().equals(pastNetwork)) {
+                    pastNetwork = channel.getNetwork();
+                    Map<String, String> network = new HashMap<String, String>();
+                    network.put("NAME", pastNetwork);
+                    networks.add(network);
+                    channelList = new ArrayList<Map<String,String>>();
+                    channelsList.add(channelList);
+                }
+                Map<String, String> channelMap = new HashMap<String, String>();
+                channelMap.put("NAME", channel.getName());
+                channelList.add(channelMap);
             }
-            ListAdapter adapter = new ArrayAdapter<String>(ChannelsView.this,
-                    R.layout.channel_item, R.id.channel_text, channelArray);
+            SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(
+                    ChannelsView.this, networks, R.layout.network_item,
+                    new String[]
+                    { "NAME" }, new int[]
+                    { R.id.network_text }, channelsList, R.layout.channel_item,
+                    new String[]
+                    { "NAME" }, new int[]
+                    { R.id.channel_text });
             setListAdapter(adapter);
         }
     }
