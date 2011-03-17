@@ -24,13 +24,14 @@ import com.google.code.guidatv.model.Schedule;
 public class GuidaTvService
 {
 
+    private static final String GUIDA_TV_URL = "http://guida-tv.appspot.com/";
     private ClientResource channelsResource;
     private ObjectMapper channelsMapper;
 
     public GuidaTvService()
     {
         Engine.getInstance().getRegisteredConverters().add(new JacksonConverter());
-        channelsResource = new ClientResource("http://10.0.2.2:8888/rest/channels");
+        channelsResource = new ClientResource(GUIDA_TV_URL + "rest/channels");
         channelsMapper = new ObjectMapper();
         channelsMapper.setVisibilityChecker(new VisibilityChecker.Std(
                 Visibility.DEFAULT, Visibility.DEFAULT, Visibility.DEFAULT,
@@ -57,7 +58,7 @@ public class GuidaTvService
 
     public Schedule getSchedule(String channelCode, Date date) {
         ClientResource clientResource = new ClientResource(
-                "http://10.0.2.2:8888/rest/channels/" + channelCode
+                GUIDA_TV_URL + "rest/channels/" + channelCode
                         + "/schedules/" + DateFormat.format("yyyyMMdd", date));
         Representation representation = clientResource.get(MediaType.APPLICATION_JSON);
         Reader reader;
