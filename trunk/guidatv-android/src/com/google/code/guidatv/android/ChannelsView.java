@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ExpandableListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class ChannelsView extends ExpandableListActivity
     private GuidaTvService mGuidaTvService;
 
     private Map<Integer, Map<Integer, String>> position2code;
+
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +56,8 @@ public class ChannelsView extends ExpandableListActivity
 
     private void fillData()
     {
+        dialog = ProgressDialog.show(ChannelsView.this, "",
+                "Loading. Please wait...", true);
         new LoadChannelsTask().execute();
     }
 
@@ -62,6 +67,7 @@ public class ChannelsView extends ExpandableListActivity
         protected List<Channel> doInBackground(Void... params)
         {
             return mGuidaTvService.getChannels();
+
         }
 
         @Override
@@ -105,6 +111,10 @@ public class ChannelsView extends ExpandableListActivity
                     { "NAME" }, new int[]
                     { R.id.channel_text });
             setListAdapter(adapter);
+            if (dialog != null) {
+                dialog.dismiss();
+                dialog = null;
+            }
         }
     }
 }
