@@ -111,6 +111,8 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("R4", "Rete 4", "generalistic", "it_IT", "Mediaset"));
         channels.add(new Channel("Iris", "Iris", "movies", "it_IT", "Mediaset"));
         channels.add(new Channel("Boing", "Boing", "children", "it_IT", "Mediaset"));
+        channels.add(new Channel("KA", "La 5", "women", "it_IT", "Mediaset"));
+        channels.add(new Channel("KQ", "Mediaset Extra", "retakes", "it_IT", "Mediaset"));
         network2channels.put("Mediaset", channels);
     }
 
