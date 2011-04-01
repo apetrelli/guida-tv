@@ -26,7 +26,7 @@ public class ChannelScheduleServerResource extends ServerResource implements Cha
         Map<String, Object> attributes = getRequestAttributes();
         String channel = (String) attributes.get("channel");
         String dateString = (String) attributes.get("date");
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        DateFormat format = new SimpleDateFormat("yyyyMMddZ");
         Date date;
         try {
             date = format.parse(dateString);
