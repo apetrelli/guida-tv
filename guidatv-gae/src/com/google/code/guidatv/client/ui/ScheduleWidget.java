@@ -207,7 +207,7 @@ public class ScheduleWidget extends Composite {
         int i = 0;
         channel2column = new LinkedHashMap<String, Integer>();
         int selectedRow = prepareTable(date);
-        DateTimeFormat format = DateTimeFormat.getFormat("yyyyMMdd");
+        DateTimeFormat format = DateTimeFormat.getFormat("yyyyMMddZ");
         for (String channel : channelTree.getSelectedChannels()) {
             ChannelScheduleResourceProxy channelProxy = GWT.create(ChannelScheduleResourceProxy.class);
             ClientResource clientResource = channelProxy.getClientResource();
