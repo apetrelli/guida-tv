@@ -1,5 +1,6 @@
 package com.google.code.guidatv.android;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -24,11 +24,7 @@ import com.google.code.guidatv.model.Transmission;
 public class ChannelScheduleView extends ListActivity
 {
 
-    private Date currentDate = new Date();
-
     private GuidaTvService mGuidaTvService;
-
-    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,20 +50,17 @@ public class ChannelScheduleView extends ListActivity
 
     private void fillData()
     {
-        dialog = ProgressDialog.show(ChannelScheduleView.this, "",
-                "Loading. Please wait...", true);
         Bundle extras = getIntent().getExtras();
-        TextView dateView = (TextView) findViewById(R.id.selectedDate);
-        dateView.setText(DateFormat.format("yyyy-MM-dd", currentDate));
-        new LoadScheduleTask().execute(extras.getString("CHANNEL_CODE"));
+		new LoadScheduleTask().execute(extras.getString("CHANNEL_CODE"),
+				extras.getSerializable("DATE"));
     }
 
-    private class LoadScheduleTask extends AsyncTask<String, Void, Schedule> {
+    private class LoadScheduleTask extends AsyncTask<Serializable, Void, Schedule> {
 
         @Override
-        protected Schedule doInBackground(String... params)
+        protected Schedule doInBackground(Serializable... params)
         {
-            return mGuidaTvService.getSchedule(params[0], currentDate);
+			return mGuidaTvService.getSchedule((String) params[0], (Date) params[1]);
         }
 
         @Override
@@ -88,7 +81,6 @@ public class ChannelScheduleView extends ListActivity
                     { "TIME_AND_NAME", "INFO" }, new int[]
                     { android.R.id.text1, android.R.id.text2 });
             setListAdapter(adapter);
-            dialog.dismiss();
         }
     }
 }

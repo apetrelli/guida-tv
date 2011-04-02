@@ -1,6 +1,7 @@
 package com.google.code.guidatv.android;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TabHost;
-import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 
 import com.google.code.guidatv.android.rest.GuidaTvService;
@@ -28,6 +29,8 @@ public class ScheduleView extends TabActivity {
 
     private ProgressDialog dialog;
 
+    private Date currentDate = new Date();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +41,8 @@ public class ScheduleView extends TabActivity {
 
     private void fillData()
     {
+        TextView dateView = (TextView) findViewById(R.id.selectedDate);
+        dateView.setText(DateFormat.getDateFormat(this).format(currentDate));
         dialog = ProgressDialog.show(ScheduleView.this, "",
                 "Loading. Please wait...", true);
         new LoadChannelsTask().execute();
@@ -91,20 +96,6 @@ public class ScheduleView extends TabActivity {
                 dialog = null;
             }
         }
-//
-//		private TabHost.TabSpec addTab(Channel channel, TabHost tabHost) {
-//			TabHost.TabSpec spec;  // Resusable TabSpec for each tab
-//			Intent intent;  // Reusable Intent for each tab
-//
-//			// Create an Intent to launch an Activity for the tab (to be reused)
-//			intent = new Intent().setClass(ScheduleView.this, ChannelScheduleView.class);
-//			intent.putExtra("CHANNEL_CODE", channel.getCode());
-//
-//			// Initialize a TabSpec for each tab and add it to the TabHost
-//			spec = tabHost.newTabSpec(channel.getCode()).setIndicator(channel.getName())
-//			              .setContent(intent);
-//			return spec;
-//		}
 
 		private TabHost.TabSpec addTab(Channel channel, TabHost tabHost) {
 			TabHost.TabSpec spec;  // Resusable TabSpec for each tab
@@ -113,6 +104,7 @@ public class ScheduleView extends TabActivity {
 			// Create an Intent to launch an Activity for the tab (to be reused)
 			intent = new Intent().setClass(ScheduleView.this, ChannelScheduleView.class);
 			intent.putExtra("CHANNEL_CODE", channel.getCode());
+			intent.putExtra("DATE", currentDate);
 
 			// Initialize a TabSpec for each tab and add it to the TabHost
 			View tabview = createTabView(tabHost.getContext(), channel.getName());
