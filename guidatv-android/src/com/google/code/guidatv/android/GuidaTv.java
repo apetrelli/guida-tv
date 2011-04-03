@@ -9,27 +9,14 @@ import android.widget.Button;
 
 public class GuidaTv extends Activity {
 
-    private static final int ACTIVITY_CHANNELS = 1;
-
-    private static final int ACTIVITY_SCHEDULE = 2;
+    private static final int ACTIVITY_SCHEDULE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Button channelsButton = (Button) findViewById(R.id.channelsButton);
-        channelsButton.setOnClickListener(new OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(GuidaTv.this, ChannelsView.class);
-                startActivityForResult(i, ACTIVITY_CHANNELS);
-            }
-        });
-        channelsButton = (Button) findViewById(R.id.scheduleButton);
+        Button channelsButton = (Button) findViewById(R.id.scheduleButton);
         channelsButton.setOnClickListener(new OnClickListener()
         {
 

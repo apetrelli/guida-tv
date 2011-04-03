@@ -16,7 +16,6 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import com.google.code.guidatv.model.Channel;
 import com.google.code.guidatv.model.Schedule;
@@ -38,25 +37,23 @@ public class GuidaTvService
                 Visibility.DEFAULT, Visibility.ANY));
     }
 
-    public List<Channel> getChannels()
+    public List<Channel> getChannels () throws IOException
     {
         Representation representation = channelsResource.get(MediaType.APPLICATION_JSON);
         Reader reader;
         List<Channel> channels;
-        try
-        {
-            reader = representation.getReader();
-            channels = channelsMapper.readValue(reader, new TypeReference<List<Channel>>() {});
-            reader.close();
-        } catch (IOException e)
-        {
-            Log.e("guida tv", "errore IO", e);
-            throw new RuntimeException(e);
-        }
+        reader = representation.getReader();
+		try {
+			channels = channelsMapper.readValue(reader,
+					new TypeReference<List<Channel>>() {
+					});
+		} finally {
+			reader.close();
+		}
         return channels;
     }
 
-    public Schedule getSchedule(String channelCode, Date date) {
+    public Schedule getSchedule(String channelCode, Date date)  throws IOException {
         String dateString = DateFormat.format("yyyyMMddz", date).toString();
         if (dateString.endsWith("Z")) {
         	dateString = dateString.substring(0, 8) + "-0000";
@@ -67,16 +64,14 @@ public class GuidaTvService
         Representation representation = clientResource.get(MediaType.APPLICATION_JSON);
         Reader reader;
         Schedule schedule;
-        try
-        {
-            reader = representation.getReader();
-            schedule = channelsMapper.readValue(reader, new TypeReference<Schedule>() {});
-            reader.close();
-        } catch (IOException e)
-        {
-            Log.e("guida tv", "errore IO", e);
-            throw new RuntimeException(e);
-        }
+        reader = representation.getReader();
+		try {
+			schedule = channelsMapper.readValue(reader,
+					new TypeReference<Schedule>() {
+					});
+		} finally {
+			reader.close();
+		}
         return schedule;
     }
 
