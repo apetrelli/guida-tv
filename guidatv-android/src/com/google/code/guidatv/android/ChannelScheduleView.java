@@ -29,7 +29,13 @@ import com.google.code.guidatv.model.Transmission;
 
 public class ChannelScheduleView extends ListActivity
 {
-    private GuidaTvService mGuidaTvService;
+    private static final String CHANNEL_CODE_ID = "CHANNEL_CODE";
+
+	private GuidaTvService mGuidaTvService;
+    
+    private Date mCurrentDate;
+    
+    private String mChannelCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,7 +43,24 @@ public class ChannelScheduleView extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_channel_schedule);
         mGuidaTvService = new GuidaTvService();
-        fillData();
+        Bundle extras = getIntent().getExtras();
+        mCurrentDate = null;
+        mChannelCode = savedInstanceState == null ? null : savedInstanceState.getString(CHANNEL_CODE_ID);
+        if (mChannelCode == null) {
+        	mChannelCode = extras.getString(CHANNEL_CODE_ID);
+        }
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    	super.onSaveInstanceState(outState);
+    	outState.putString(CHANNEL_CODE_ID, mChannelCode);
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	fillData();
     }
     
     @Override
@@ -55,9 +78,12 @@ public class ChannelScheduleView extends ListActivity
 
     private void fillData()
     {
-        Bundle extras = getIntent().getExtras();
-		new LoadScheduleTask().execute(extras.getString("CHANNEL_CODE"),
-				extras.getSerializable("DATE"));
+    	Date currentDate = getRealApplication().getCurrentDate();
+		if (mCurrentDate == null || !mCurrentDate.equals(currentDate)) {
+    		mCurrentDate = currentDate;
+        	setListAdapter(null);
+    		new LoadScheduleTask().execute(mChannelCode, mCurrentDate);
+    	}
     }
 
     private class LoadScheduleTask extends AsyncTask<Serializable, Void, Schedule> {
@@ -117,4 +143,8 @@ public class ChannelScheduleView extends ListActivity
             setListAdapter(adapter);
         }
     }
+	
+	private GuidaTvApplication getRealApplication() {
+		return (GuidaTvApplication) getApplication();
+	}
 }

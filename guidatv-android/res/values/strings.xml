@@ -6,4 +6,5 @@
 <string name="channels_button">Channels</string>
 <string name="schedule_button">Schedule</string>
 <string name="loading_schedule">Loading, please wait...</string>
+<string name="menu_change_date">Change date</string>
 </resources>
