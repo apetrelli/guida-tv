@@ -2,13 +2,16 @@ package com.google.code.guidatv.android;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.restlet.resource.ResourceException;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
@@ -21,11 +24,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.DatePicker;
 import android.widget.HorizontalScrollView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -37,14 +43,38 @@ import com.google.code.guidatv.model.Channel;
 
 public class ScheduleView extends TabActivity {
 
+	private static final int CHANGE_DATE = Menu.FIRST;
+	
+	private static final int DATE_DIALOG_ID = 0;
+	
 	private GuidaTvService mGuidaTvService;
 
 	int channelCount = 0;
 
 	private ProgressDialog dialog;
+	
+	private DatePickerDialog.OnDateSetListener mDateSetListener =
+        new DatePickerDialog.OnDateSetListener() {
 
-	private Date currentDate = new Date();
-
+            public void onDateSet(DatePicker view, int year, 
+                                  int monthOfYear, int dayOfMonth) {
+            	Calendar cal = Calendar.getInstance();
+				cal.set(year, monthOfYear, dayOfMonth);
+				getRealApplication().setCurrentDate(cal.getTime());
+				writeDateText();
+				
+				// Force reload.
+				TabHost tabHost = getTabHost(); // The activity TabHost
+				int currentTab = tabHost.getCurrentTab();
+				if (currentTab == 0) {
+					tabHost.setCurrentTab(1);
+				} else {
+					tabHost.setCurrentTab(0);
+				}
+				tabHost.setCurrentTab(currentTab);
+            }
+        };
+        
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,12 +83,54 @@ public class ScheduleView extends TabActivity {
 		fillData();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean retValue = super.onCreateOptionsMenu(menu);
+		menu.add(0, CHANGE_DATE, 0, R.string.menu_change_date);
+		return retValue;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case CHANGE_DATE:
+			selectDate();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private GuidaTvApplication getRealApplication() {
+		return (GuidaTvApplication) getApplication();
+	}
+	
+	private void selectDate() {
+		showDialog(DATE_DIALOG_ID);
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DATE_DIALOG_ID:
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(getRealApplication().getCurrentDate());
+			return new DatePickerDialog(this,
+                    mDateSetListener,
+                    cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));			
+		}
+		return null;
+	}
+
 	private void fillData() {
-		TextView dateView = (TextView) findViewById(R.id.selectedDate);
-		dateView.setText(DateFormat.getDateFormat(this).format(currentDate));
+		writeDateText();
 		dialog = ProgressDialog.show(ScheduleView.this, "",
 				"Loading. Please wait...", true);
 		new LoadChannelsTask().execute();
+	}
+
+	private void writeDateText() {
+		TextView dateView = (TextView) findViewById(R.id.selectedDate);
+		dateView.setText(DateFormat.getDateFormat(this).format(getRealApplication().getCurrentDate()));
 	}
 
 	private class LoadChannelsTask extends AsyncTask<Void, Void, List<Channel>> {
@@ -81,6 +153,8 @@ public class ScheduleView extends TabActivity {
 			if (channels != null) {
 				List<Map<String, String>> networks = new ArrayList<Map<String, String>>();
 				String pastNetwork = null;
+				TabHost tabHost = getTabHost(); // The activity TabHost
+				tabHost.clearAllTabs();
 				for (Channel channel : channels) {
 					if (!channel.getNetwork().equals(pastNetwork)) {
 						pastNetwork = channel.getNetwork();
@@ -90,7 +164,6 @@ public class ScheduleView extends TabActivity {
 					}
 					Map<String, String> channelMap = new HashMap<String, String>();
 					channelMap.put("NAME", channel.getName());
-					TabHost tabHost = getTabHost(); // The activity TabHost
 					tabHost.addTab(addTab(channel, tabHost));
 					channelCount++;
 				}
@@ -126,7 +199,6 @@ public class ScheduleView extends TabActivity {
 			intent = new Intent().setClass(ScheduleView.this,
 					ChannelScheduleView.class);
 			intent.putExtra("CHANNEL_CODE", channel.getCode());
-			intent.putExtra("DATE", currentDate);
 
 			// Initialize a TabSpec for each tab and add it to the TabHost
 			View tabview = createTabView(tabHost.getContext(),
