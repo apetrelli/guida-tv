@@ -21,7 +21,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.google.code.guidatv.android.rest.GuidaTvService;
@@ -172,6 +174,11 @@ public class ScheduleView extends TabActivity {
 			    // f=core/java/android/widget/TabHost.java
 			    View currentView = getCurrentView();
 			    setCurrentTab(newTab);
+			    HorizontalScrollView scroll = (HorizontalScrollView) findViewById(R.id.tabsContainer);
+			    TabWidget tabWidget = (TabWidget) findViewById(android.R.id.tabs);
+			    tabWidget.focusCurrentTab(newTab);
+			    View tab = tabWidget.getChildAt(newTab);
+			    scroll.scrollTo(tab.getLeft() - 10, scroll.getScrollY());
 			    View newView = getCurrentView();
 
 			    newView.startAnimation(right ? mRightInAnimation : mLeftInAnimation);

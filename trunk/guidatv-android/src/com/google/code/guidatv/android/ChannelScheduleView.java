@@ -8,18 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
@@ -30,12 +23,6 @@ import com.google.code.guidatv.model.Transmission;
 
 public class ChannelScheduleView extends ListActivity
 {
-	static final int SWIPE_MIN_DISTANCE = 120;
-	static final int SWIPE_MAX_OFF_PATH = 250;
-	static final int SWIPE_THRESHOLD_VELOCITY = 200;
-	private GestureDetector gestureDetector;
-	View.OnTouchListener gestureListener;
-
     private GuidaTvService mGuidaTvService;
 
     @Override
@@ -43,15 +30,6 @@ public class ChannelScheduleView extends ListActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_channel_schedule);
-//		gestureDetector = new GestureDetector(new SwipeGestureDetector());
-//		gestureListener = new View.OnTouchListener() {
-//			public boolean onTouch(View v, MotionEvent event) {
-//				if (gestureDetector.onTouchEvent(event)) {
-//					return true;
-//				}
-//				return false;
-//			}
-//		};
         mGuidaTvService = new GuidaTvService();
         fillData();
     }
@@ -68,14 +46,6 @@ public class ChannelScheduleView extends ListActivity
             text2.setVisibility(View.GONE);
         }
     }
-//
-//    @Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		if (gestureDetector.onTouchEvent(event))
-//			return true;
-//		else
-//			return false;
-//	}
 
     private void fillData()
     {
@@ -112,53 +82,4 @@ public class ChannelScheduleView extends ListActivity
             setListAdapter(adapter);
         }
     }
-
-	class SwipeGestureDetector extends SimpleOnGestureListener {
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			try {
-				if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-					return false;
-				// right to left swipe
-				if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					Intent i = new Intent();
-				    i.setAction("com.google.code.guidatv.android.SWITCH_RIGHT");
-				    sendBroadcast(i);
-				    // Right
-				} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					Intent i = new Intent();
-				    i.setAction("com.google.code.guidatv.android.SWITCH_LEFT");
-				    sendBroadcast(i);
-					// Left
-				}
-			} catch (Exception e) {
-				// nothing
-			}
-			return false;
-		}
-	}
-	
-	class GesturedScrollView extends ScrollView {
-
-		public GesturedScrollView(Context context, AttributeSet attrs,
-				int defStyle) {
-			super(context, attrs, defStyle);
-			// TODO Auto-generated constructor stub
-		}
-
-		public GesturedScrollView(Context context, AttributeSet attrs) {
-			super(context, attrs);
-			// TODO Auto-generated constructor stub
-		}
-
-		public GesturedScrollView(Context context) {
-			super(context);
-			// TODO Auto-generated constructor stub
-		}
-		
-	}
 }
