@@ -1,19 +1,24 @@
 package com.google.code.guidatv.android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.restlet.resource.ResourceException;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -60,30 +65,56 @@ public class ScheduleView extends TabActivity {
 
 		@Override
 		protected List<Channel> doInBackground(Void... params) {
-			return mGuidaTvService.getChannels();
-
+			try {
+				return mGuidaTvService.getChannels();
+			} catch (IOException e) {
+				Log.d("ScheduleView", "Cannot retrieve channels", e);
+				return null;
+			} catch (ResourceException e) {
+				Log.d("ScheduleView", "Cannot retrieve channels", e);
+				return null;
+			}
 		}
 
 		@Override
 		protected void onPostExecute(List<Channel> channels) {
-			List<Map<String, String>> networks = new ArrayList<Map<String, String>>();
-			String pastNetwork = null;
-			for (Channel channel : channels) {
-				if (!channel.getNetwork().equals(pastNetwork)) {
-					pastNetwork = channel.getNetwork();
-					Map<String, String> network = new HashMap<String, String>();
-					network.put("NAME", pastNetwork);
-					networks.add(network);
+			if (channels != null) {
+				List<Map<String, String>> networks = new ArrayList<Map<String, String>>();
+				String pastNetwork = null;
+				for (Channel channel : channels) {
+					if (!channel.getNetwork().equals(pastNetwork)) {
+						pastNetwork = channel.getNetwork();
+						Map<String, String> network = new HashMap<String, String>();
+						network.put("NAME", pastNetwork);
+						networks.add(network);
+					}
+					Map<String, String> channelMap = new HashMap<String, String>();
+					channelMap.put("NAME", channel.getName());
+					TabHost tabHost = getTabHost(); // The activity TabHost
+					tabHost.addTab(addTab(channel, tabHost));
+					channelCount++;
 				}
-				Map<String, String> channelMap = new HashMap<String, String>();
-				channelMap.put("NAME", channel.getName());
-				TabHost tabHost = getTabHost(); // The activity TabHost
-				tabHost.addTab(addTab(channel, tabHost));
-				channelCount++;
 			}
 			if (dialog != null) {
 				dialog.dismiss();
 				dialog = null;
+			}
+			if (channels == null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleView.this);
+				builder.setMessage(
+						"Cannot get channel list. Are you connected to Internet?")
+						.setCancelable(false)
+						.setPositiveButton("OK",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+									}
+								});
+				AlertDialog dialog = builder.create();
+				dialog.show();
 			}
 		}
 
