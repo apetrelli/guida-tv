@@ -14,7 +14,12 @@
 
     <activity android:name=".ChannelsView"></activity>
 <activity android:name=".ChannelScheduleView"></activity>
-<activity android:name=".ScheduleView"></activity>
+<activity android:name=".ScheduleView">
+    <intent-filter>
+        <action android:name="com.google.code.guidatv.android.SWITCH_LEFT"></action>
+        <action android:name="com.google.code.guidatv.android.SWITCH_RIGHT"></action>
+    </intent-filter>
+</activity>
 </application>
 
 

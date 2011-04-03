@@ -57,9 +57,13 @@ public class GuidaTvService
     }
 
     public Schedule getSchedule(String channelCode, Date date) {
-        ClientResource clientResource = new ClientResource(
+        String dateString = DateFormat.format("yyyyMMddz", date).toString();
+        if (dateString.endsWith("Z")) {
+        	dateString = dateString.substring(0, 8) + "-0000";
+        }
+		ClientResource clientResource = new ClientResource(
                 GUIDA_TV_URL + "rest/channels/" + channelCode
-                        + "/schedules/" + DateFormat.format("yyyyMMddz", date));
+                        + "/schedules/" + dateString);
         Representation representation = clientResource.get(MediaType.APPLICATION_JSON);
         Reader reader;
         Schedule schedule;
