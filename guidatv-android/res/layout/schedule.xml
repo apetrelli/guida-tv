@@ -9,7 +9,7 @@
 		<TextView android:id="@+id/selectedDate" android:text="Well nothing"
 			android:layout_height="20dp" android:layout_width="wrap_content"></TextView>
 		<HorizontalScrollView android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content" android:id="@+id/tabsContainer">
 			<TabWidget android:id="@android:id/tabs"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
 		</HorizontalScrollView>
