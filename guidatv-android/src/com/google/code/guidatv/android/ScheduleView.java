@@ -153,6 +153,14 @@ public class ScheduleView extends TabActivity {
             return super.onInterceptTouchEvent(ev);
         }
 
+        @Override
+        public boolean onTouchEvent(MotionEvent ev) {
+            if (mGestureDetector.onTouchEvent(ev)) {
+                return true;
+            }
+            return super.onTouchEvent(ev);
+        }
+
 		public void switchTab(final boolean right) {
 			int tabCount = getTabWidget().getTabCount();
 			int currentTab = getCurrentTab();
