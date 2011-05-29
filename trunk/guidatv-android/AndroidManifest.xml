@@ -18,6 +18,7 @@
         <action android:name="com.google.code.guidatv.android.SWITCH_RIGHT"></action>
     </intent-filter>
 </activity>
+<activity android:name=".ChannelSelectView"></activity>
 </application>
 
 
