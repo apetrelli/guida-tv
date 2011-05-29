@@ -16,8 +16,19 @@ public class GuidaTv extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Button channelsButton = (Button) findViewById(R.id.scheduleButton);
+        Button channelsButton = (Button) findViewById(R.id.channelsButton);
         channelsButton.setOnClickListener(new OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(GuidaTv.this, ChannelSelectView.class);
+                startActivityForResult(i, ACTIVITY_SCHEDULE);
+            }
+        });
+        Button scheduleButton = (Button) findViewById(R.id.scheduleButton);
+        scheduleButton.setOnClickListener(new OnClickListener()
         {
 
             @Override
