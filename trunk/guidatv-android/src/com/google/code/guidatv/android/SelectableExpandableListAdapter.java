@@ -6,9 +6,12 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.SimpleExpandableListAdapter;
+
+import com.google.code.guidatv.android.db.ChannelDbAdapter;
 
 public class SelectableExpandableListAdapter extends
 		SimpleExpandableListAdapter {
@@ -66,37 +69,48 @@ public class SelectableExpandableListAdapter extends
 	}
 
 	private Set<ParentChildIndex> selectedIndexes;
+
+    private Map<Integer, Map<Integer, String>> position2code;
+    
+    private ChannelDbAdapter mDb;
 	
 	public SelectableExpandableListAdapter(Context context,
 			List<? extends Map<String, ?>> groupData, int expandedGroupLayout,
 			int collapsedGroupLayout, String[] groupFrom, int[] groupTo,
 			List<? extends List<? extends Map<String, ?>>> childData,
 			int childLayout, int lastChildLayout, String[] childFrom,
-			int[] childTo, Set<ParentChildIndex> selectChildIndexes) {
+			int[] childTo, Set<ParentChildIndex> selectedChildIndexes, 
+		    Map<Integer, Map<Integer, String>> position2code, ChannelDbAdapter mDb) {
 		super(context, groupData, expandedGroupLayout, collapsedGroupLayout,
 				groupFrom, groupTo, childData, childLayout, lastChildLayout,
 				childFrom, childTo);
-		this.selectedIndexes = selectChildIndexes;
+		this.selectedIndexes = selectedChildIndexes;
+		this.position2code = position2code;
+		this.mDb = mDb;
 	}
 
 	public SelectableExpandableListAdapter(Context context,
 			List<? extends Map<String, ?>> groupData, int expandedGroupLayout,
 			int collapsedGroupLayout, String[] groupFrom, int[] groupTo,
 			List<? extends List<? extends Map<String, ?>>> childData,
-			int childLayout, String[] childFrom, int[] childTo, Set<ParentChildIndex> selectChildIndexes) {
+			int childLayout, String[] childFrom, int[] childTo, Set<ParentChildIndex> selectedChildIndexes, Map<Integer, Map<Integer, String>> position2code, ChannelDbAdapter mDb) {
 		super(context, groupData, expandedGroupLayout, collapsedGroupLayout,
 				groupFrom, groupTo, childData, childLayout, childFrom, childTo);
-		this.selectedIndexes = selectChildIndexes;
+		this.selectedIndexes = selectedChildIndexes;
+		this.position2code = position2code;
+		this.mDb = mDb;
 	}
 
 	public SelectableExpandableListAdapter(Context context,
 			List<? extends Map<String, ?>> groupData, int groupLayout,
 			String[] groupFrom, int[] groupTo,
 			List<? extends List<? extends Map<String, ?>>> childData,
-			int childLayout, String[] childFrom, int[] childTo, Set<ParentChildIndex> selectChildIndexes) {
+			int childLayout, String[] childFrom, int[] childTo, Set<ParentChildIndex> selectedChildIndexes, Map<Integer, Map<Integer, String>> position2code, ChannelDbAdapter mDb) {
 		super(context, groupData, groupLayout, groupFrom, groupTo, childData,
 				childLayout, childFrom, childTo);
-		this.selectedIndexes = selectChildIndexes;
+		this.selectedIndexes = selectedChildIndexes;
+		this.position2code = position2code;
+		this.mDb = mDb;
 	}
 
 	@Override
@@ -105,6 +119,26 @@ public class SelectableExpandableListAdapter extends
 		CheckBox childView = (CheckBox) super.getChildView(groupPosition, childPosition, isLastChild,
 						convertView, parent);
 		childView.setChecked(selectedIndexes.contains(new ParentChildIndex(groupPosition, childPosition)));
+		Map<Integer, String> childPos2code = position2code.get(groupPosition);
+		if (childPos2code != null) {
+			final String code = childPos2code.get(childPosition);
+			final String name = childView.getText().toString();
+			if (code != null) {
+				childView.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						boolean isChecked = ((CheckBox) v).isChecked();
+						if (isChecked) {
+							mDb.addChannel(code, name);
+						} else {
+							mDb.deleteChannel(code);
+						}
+					}
+				}
+				);
+			}
+		}
 		return childView;
 	}
 }

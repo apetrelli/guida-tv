@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 
 import com.google.code.guidatv.android.SelectableExpandableListAdapter.ParentChildIndex;
@@ -53,9 +54,20 @@ public class ChannelSelectView extends ExpandableListActivity
             int groupPosition, int childPosition, long id)
     {
         boolean retValue = super.onChildClick(parent, v, groupPosition, childPosition, id);
-//        Intent i = new Intent(this, ChannelScheduleView.class);
-//        i.putExtra("CHANNEL_CODE", position2code.get(groupPosition).get(childPosition));
-//        startActivityForResult(i, SCHEDULE_VIEW);
+        CheckBox childView = (CheckBox) v;
+		Map<Integer, String> childPos2code = position2code.get(groupPosition);
+		if (childPos2code != null) {
+			final String code = childPos2code.get(childPosition);
+			final String name = childView.getText().toString();
+			if (code != null) {
+				boolean isChecked = childView.isChecked();
+				if (isChecked) {
+					mDb.addChannel(code, name);
+				} else {
+					mDb.deleteChannel(code);
+				}
+			}
+		}
         return retValue;
     }
 
@@ -140,9 +152,9 @@ public class ChannelSelectView extends ExpandableListActivity
                     { R.id.network_text }, channelsList, R.layout.channel_item,
                     new String[]
                     { "NAME" }, new int[]
-                    { R.id.channel_text }, positions);
+                    { R.id.channel_text }, positions, position2code, mDb);
             setListAdapter(adapter);
-            ExpandableListView listView = (ExpandableListView) findViewById(android.R.id.list);
+            getExpandableListView().setOnChildClickListener(ChannelSelectView.this);
             if (dialog != null) {
                 dialog.dismiss();
                 dialog = null;
