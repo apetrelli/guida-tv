@@ -138,7 +138,7 @@ public class ChannelDbAdapter {
     	Cursor cursor = mDb.rawQuery("select max(ord) from channel", null);
     	int max = 1;
     	if (cursor.moveToFirst()) {
-    		max = cursor.getInt(1);
+    		max = cursor.getInt(0);
     	}
     	cursor.close();
         ContentValues initialValues = new ContentValues();
@@ -158,6 +158,17 @@ public class ChannelDbAdapter {
     public boolean deleteChannel(long rowId) {
 
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    /**
+     * Delete the note with the given rowId
+     * 
+     * @param rowId id of note to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteChannel(String code) {
+
+        return mDb.delete(DATABASE_TABLE, KEY_CODE + "='" + code + "'", null) > 0;
     }
 
     /**
