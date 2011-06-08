@@ -240,4 +240,21 @@ public class ChannelDbAdapter {
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
+
+    /**
+     * Update the note using the details provided. The note to be updated is
+     * specified using the rowId, and it is altered to use the title and body
+     * values passed in
+     * 
+     * @param rowId id of note to update
+     * @param title value to set note title to
+     * @param body value to set note body to
+     * @return true if the note was successfully updated, false otherwise
+     */
+    public boolean updateChannel(String code, int order) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_ORDER, order);
+
+        return mDb.update(DATABASE_TABLE, args, KEY_CODE + "='" + code + "'", null) > 0;
+    }
 }

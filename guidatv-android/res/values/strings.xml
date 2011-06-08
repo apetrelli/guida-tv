@@ -4,6 +4,7 @@
     <string name="app_name">guidatv-android</string>
 <string name="no_channels">No channels found</string>
 <string name="channels_button">Channels</string>
+<string name="sort_channels_button">Sort channels</string>
 <string name="schedule_button">Schedule</string>
 <string name="loading_schedule">Loading, please wait...</string>
 <string name="menu_change_date">Change date</string>

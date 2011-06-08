@@ -19,6 +19,7 @@
     </intent-filter>
 </activity>
 <activity android:name=".ChannelSelectView"></activity>
+<activity android:name=".SortChannelsView"></activity>
 </application>
 
 

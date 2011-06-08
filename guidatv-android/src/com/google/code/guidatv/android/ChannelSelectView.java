@@ -50,6 +50,12 @@ public class ChannelSelectView extends ExpandableListActivity
     }
     
     @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	mDb.close();
+    }
+    
+    @Override
     public boolean onChildClick(ExpandableListView parent, View v,
             int groupPosition, int childPosition, long id)
     {
