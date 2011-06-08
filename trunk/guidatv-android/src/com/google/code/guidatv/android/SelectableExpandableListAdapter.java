@@ -134,7 +134,7 @@ public class SelectableExpandableListAdapter extends
 						} else {
 							mDb.deleteChannel(code);
 						}
-					}
+ 					}
 				}
 				);
 			}

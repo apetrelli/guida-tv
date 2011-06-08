@@ -11,6 +11,10 @@ public class GuidaTv extends Activity {
 
     private static final int ACTIVITY_SCHEDULE = 1;
 
+    private static final int ACTIVITY_CHANNELS = 2;
+    
+    private static final int ACTIVITY_SORT_CHANNELS = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -24,7 +28,18 @@ public class GuidaTv extends Activity {
             public void onClick(View v)
             {
                 Intent i = new Intent(GuidaTv.this, ChannelSelectView.class);
-                startActivityForResult(i, ACTIVITY_SCHEDULE);
+                startActivityForResult(i, ACTIVITY_CHANNELS);
+            }
+        });
+        Button sortChannelsButton = (Button) findViewById(R.id.sortChannelsButton);
+        sortChannelsButton.setOnClickListener(new OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(GuidaTv.this, SortChannelsView.class);
+                startActivityForResult(i, ACTIVITY_SORT_CHANNELS);
             }
         });
         Button scheduleButton = (Button) findViewById(R.id.scheduleButton);

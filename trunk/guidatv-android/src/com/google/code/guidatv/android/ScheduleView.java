@@ -17,6 +17,7 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -37,6 +38,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.google.code.guidatv.android.db.ChannelDbAdapter;
 import com.google.code.guidatv.android.rest.GuidaTvService;
 import com.google.code.guidatv.android.util.MathUtils;
 import com.google.code.guidatv.model.Channel;
@@ -52,6 +54,8 @@ public class ScheduleView extends TabActivity {
 	int channelCount = 0;
 
 	private ProgressDialog dialog;
+
+	private ChannelDbAdapter mDb;
 	
 	private DatePickerDialog.OnDateSetListener mDateSetListener =
         new DatePickerDialog.OnDateSetListener() {
@@ -80,7 +84,15 @@ public class ScheduleView extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule);
 		mGuidaTvService = new GuidaTvService();
+		mDb = new ChannelDbAdapter(this);
+		mDb.open();
 		fillData();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mDb.close();
 	}
 
 	@Override
@@ -123,14 +135,64 @@ public class ScheduleView extends TabActivity {
 
 	private void fillData() {
 		writeDateText();
-		dialog = ProgressDialog.show(ScheduleView.this, "",
-				"Loading. Please wait...", true);
-		new LoadChannelsTask().execute();
+		Cursor cursor = mDb.fetchAllChannels();
+		startManagingCursor(cursor);
+		boolean goOn = cursor.moveToFirst();
+		List<Channel> channels = new ArrayList<Channel>();
+		while (goOn) {
+			channels.add(new Channel(cursor.getString(cursor
+					.getColumnIndexOrThrow(ChannelDbAdapter.KEY_CODE)), cursor
+					.getString(cursor
+							.getColumnIndexOrThrow(ChannelDbAdapter.KEY_NAME)), null, null, null));
+			goOn = cursor.moveToNext();
+		}
+		loadChannelTabs(channels);
+//		dialog = ProgressDialog.show(ScheduleView.this, "",
+//				"Loading. Please wait...", true);
+//		new LoadChannelsTask().execute();
 	}
 
 	private void writeDateText() {
 		TextView dateView = (TextView) findViewById(R.id.selectedDate);
 		dateView.setText(DateFormat.getDateFormat(this).format(getRealApplication().getCurrentDate()));
+	}
+
+	private void loadChannelTabs(List<Channel> channels) {
+		if (channels != null) {
+			TabHost tabHost = getTabHost(); // The activity TabHost
+			tabHost.clearAllTabs();
+			for (Channel channel : channels) {
+				Map<String, String> channelMap = new HashMap<String, String>();
+				channelMap.put("NAME", channel.getName());
+				tabHost.addTab(addTab(channel, tabHost));
+				channelCount++;
+			}
+		}
+	}
+
+	private TabHost.TabSpec addTab(Channel channel, TabHost tabHost) {
+		TabHost.TabSpec spec; // Resusable TabSpec for each tab
+		Intent intent; // Reusable Intent for each tab
+
+		// Create an Intent to launch an Activity for the tab (to be reused)
+		intent = new Intent().setClass(ScheduleView.this,
+				ChannelScheduleView.class);
+		intent.putExtra("CHANNEL_CODE", channel.getCode());
+
+		// Initialize a TabSpec for each tab and add it to the TabHost
+		View tabview = createTabView(tabHost.getContext(),
+				channel.getName());
+		spec = tabHost.newTabSpec(channel.getCode()).setIndicator(tabview)
+				.setContent(intent);
+		return spec;
+	}
+
+	private View createTabView(Context context, String text) {
+		View view = LayoutInflater.from(context).inflate(
+				R.layout.channel_tab, null);
+		TextView tv = (TextView) view.findViewById(R.id.tabText);
+		tv.setText(text);
+		return view;
 	}
 
 	private class LoadChannelsTask extends AsyncTask<Void, Void, List<Channel>> {
@@ -150,24 +212,7 @@ public class ScheduleView extends TabActivity {
 
 		@Override
 		protected void onPostExecute(List<Channel> channels) {
-			if (channels != null) {
-				List<Map<String, String>> networks = new ArrayList<Map<String, String>>();
-				String pastNetwork = null;
-				TabHost tabHost = getTabHost(); // The activity TabHost
-				tabHost.clearAllTabs();
-				for (Channel channel : channels) {
-					if (!channel.getNetwork().equals(pastNetwork)) {
-						pastNetwork = channel.getNetwork();
-						Map<String, String> network = new HashMap<String, String>();
-						network.put("NAME", pastNetwork);
-						networks.add(network);
-					}
-					Map<String, String> channelMap = new HashMap<String, String>();
-					channelMap.put("NAME", channel.getName());
-					tabHost.addTab(addTab(channel, tabHost));
-					channelCount++;
-				}
-			}
+			loadChannelTabs(channels);
 			if (dialog != null) {
 				dialog.dismiss();
 				dialog = null;
@@ -189,31 +234,6 @@ public class ScheduleView extends TabActivity {
 				AlertDialog dialog = builder.create();
 				dialog.show();
 			}
-		}
-
-		private TabHost.TabSpec addTab(Channel channel, TabHost tabHost) {
-			TabHost.TabSpec spec; // Resusable TabSpec for each tab
-			Intent intent; // Reusable Intent for each tab
-
-			// Create an Intent to launch an Activity for the tab (to be reused)
-			intent = new Intent().setClass(ScheduleView.this,
-					ChannelScheduleView.class);
-			intent.putExtra("CHANNEL_CODE", channel.getCode());
-
-			// Initialize a TabSpec for each tab and add it to the TabHost
-			View tabview = createTabView(tabHost.getContext(),
-					channel.getName());
-			spec = tabHost.newTabSpec(channel.getCode()).setIndicator(tabview)
-					.setContent(intent);
-			return spec;
-		}
-
-		private View createTabView(Context context, String text) {
-			View view = LayoutInflater.from(context).inflate(
-					R.layout.channel_tab, null);
-			TextView tv = (TextView) view.findViewById(R.id.tabText);
-			tv.setText(text);
-			return view;
 		}
 	}
 	public static class FlingableTabHost extends TabHost {
