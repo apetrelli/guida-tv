@@ -135,7 +135,14 @@ public class ChannelDbAdapter {
      * @return rowId or -1 if failed
      */
     public long addChannel(String code, String name) {
-    	Cursor cursor = mDb.rawQuery("select max(ord) from channel", null);
+    	Cursor cursor = fetchChannelByCode(code);
+    	if (cursor.moveToFirst()) {
+    		long retValue = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
+    		cursor.close();
+    		return retValue;
+    	}
+    	
+    	cursor = mDb.rawQuery("select max(ord) from channel", null);
     	int max = 1;
     	if (cursor.moveToFirst()) {
     		max = cursor.getInt(0);
@@ -147,6 +154,17 @@ public class ChannelDbAdapter {
         initialValues.put(KEY_ORDER, max + 1);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
+    }
+
+    /**
+     * Delete the note with the given rowId
+     * 
+     * @param rowId id of note to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteAll() {
+
+        return mDb.delete(DATABASE_TABLE, null, null) > 0;
     }
 
     /**
@@ -215,7 +233,7 @@ public class ChannelDbAdapter {
         Cursor mCursor =
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                        KEY_CODE, KEY_NAME, KEY_ORDER}, KEY_CODE + "=" + code, null,
+                        KEY_CODE, KEY_NAME, KEY_ORDER}, KEY_CODE + "='" + code + "'", null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();

@@ -114,7 +114,7 @@ public class SelectableExpandableListAdapter extends
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
+	public View getChildView(final int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		CheckBox childView = (CheckBox) super.getChildView(groupPosition, childPosition, isLastChild,
 						convertView, parent);
@@ -128,12 +128,17 @@ public class SelectableExpandableListAdapter extends
 					
 					@Override
 					public void onClick(View v) {
-						boolean isChecked = ((CheckBox) v).isChecked();
+						CheckBox checkBox = (CheckBox) v;
+						boolean isChecked = checkBox.isChecked();
+						ParentChildIndex parentChildIndex = new ParentChildIndex(groupPosition, childPosition);
 						if (isChecked) {
 							mDb.addChannel(code, name);
+							selectedIndexes.add(parentChildIndex);
 						} else {
 							mDb.deleteChannel(code);
+							selectedIndexes.remove(parentChildIndex);
 						}
+						checkBox.setChecked(isChecked);
  					}
 				}
 				);

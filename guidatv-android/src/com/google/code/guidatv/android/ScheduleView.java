@@ -1,28 +1,20 @@
 package com.google.code.guidatv.android;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.restlet.resource.ResourceException;
-
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +31,6 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.google.code.guidatv.android.db.ChannelDbAdapter;
-import com.google.code.guidatv.android.rest.GuidaTvService;
 import com.google.code.guidatv.android.util.MathUtils;
 import com.google.code.guidatv.model.Channel;
 
@@ -48,12 +39,8 @@ public class ScheduleView extends TabActivity {
 	private static final int CHANGE_DATE = Menu.FIRST;
 	
 	private static final int DATE_DIALOG_ID = 0;
-	
-	private GuidaTvService mGuidaTvService;
 
 	int channelCount = 0;
-
-	private ProgressDialog dialog;
 
 	private ChannelDbAdapter mDb;
 	
@@ -83,7 +70,6 @@ public class ScheduleView extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule);
-		mGuidaTvService = new GuidaTvService();
 		mDb = new ChannelDbAdapter(this);
 		mDb.open();
 		fillData();
@@ -193,48 +179,6 @@ public class ScheduleView extends TabActivity {
 		TextView tv = (TextView) view.findViewById(R.id.tabText);
 		tv.setText(text);
 		return view;
-	}
-
-	private class LoadChannelsTask extends AsyncTask<Void, Void, List<Channel>> {
-
-		@Override
-		protected List<Channel> doInBackground(Void... params) {
-			try {
-				return mGuidaTvService.getChannels();
-			} catch (IOException e) {
-				Log.d("ScheduleView", "Cannot retrieve channels", e);
-				return null;
-			} catch (ResourceException e) {
-				Log.d("ScheduleView", "Cannot retrieve channels", e);
-				return null;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(List<Channel> channels) {
-			loadChannelTabs(channels);
-			if (dialog != null) {
-				dialog.dismiss();
-				dialog = null;
-			}
-			if (channels == null) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleView.this);
-				builder.setMessage(
-						"Cannot get channel list. Are you connected to Internet?")
-						.setCancelable(false)
-						.setPositiveButton("OK",
-								new DialogInterface.OnClickListener() {
-
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
-		}
 	}
 	public static class FlingableTabHost extends TabHost {
         GestureDetector mGestureDetector;

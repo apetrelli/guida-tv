@@ -7,4 +7,5 @@
 <Button android:text="@string/channels_button" android:id="@+id/channelsButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 <Button android:text="@string/sort_channels_button" android:id="@+id/sortChannelsButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 <Button android:text="@string/schedule_button" android:id="@+id/scheduleButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+<Button android:text="Clean up" android:id="@+id/cleanup" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 </LinearLayout>
