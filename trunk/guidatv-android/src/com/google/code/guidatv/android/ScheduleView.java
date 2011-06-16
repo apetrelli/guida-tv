@@ -38,6 +38,14 @@ public class ScheduleView extends TabActivity {
 
 	private static final int CHANGE_DATE = Menu.FIRST;
 	
+	private static final int SELECT_CHANNELS = CHANGE_DATE + 1;
+	
+	private static final int SORT_CHANNELS = SELECT_CHANNELS + 1;
+
+    private static final int ACTIVITY_CHANNELS = 2;
+    
+    private static final int ACTIVITY_SORT_CHANNELS = 3;
+	
 	private static final int DATE_DIALOG_ID = 0;
 
 	int channelCount = 0;
@@ -85,17 +93,34 @@ public class ScheduleView extends TabActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean retValue = super.onCreateOptionsMenu(menu);
 		menu.add(0, CHANGE_DATE, 0, R.string.menu_change_date);
+		menu.add(0, SELECT_CHANNELS, 0, R.string.menu_channels);
+		menu.add(0, SORT_CHANNELS, 0, R.string.menu_sort_channels);
 		return retValue;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
 		switch (item.getItemId()) {
 		case CHANGE_DATE:
 			selectDate();
 			return true;
+		case SELECT_CHANNELS:
+            i = new Intent(this, ChannelSelectView.class);
+            startActivityForResult(i, ACTIVITY_CHANNELS);
+			return true;
+		case SORT_CHANNELS:
+            i = new Intent(this, SortChannelsView.class);
+            startActivityForResult(i, ACTIVITY_SORT_CHANNELS);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		fillData();
 	}
 	
 	private GuidaTvApplication getRealApplication() {
@@ -133,9 +158,6 @@ public class ScheduleView extends TabActivity {
 			goOn = cursor.moveToNext();
 		}
 		loadChannelTabs(channels);
-//		dialog = ProgressDialog.show(ScheduleView.this, "",
-//				"Loading. Please wait...", true);
-//		new LoadChannelsTask().execute();
 	}
 
 	private void writeDateText() {

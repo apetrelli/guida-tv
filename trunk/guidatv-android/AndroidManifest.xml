@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.google.code.guidatv.android"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true" android:name="GuidaTvApplication">
-        <activity android:name=".GuidaTv"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-<activity android:name=".ChannelScheduleView"></activity>
-<activity android:name=".ScheduleView">
-    <intent-filter>
-        <action android:name="com.google.code.guidatv.android.SWITCH_LEFT"></action>
-        <action android:name="com.google.code.guidatv.android.SWITCH_RIGHT"></action>
-    </intent-filter>
-</activity>
-<activity android:name=".ChannelSelectView"></activity>
-<activity android:name=".SortChannelsView"></activity>
-</application>
+	package="com.google.code.guidatv.android" android:versionCode="1"
+	android:versionName="1.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:debuggable="true" android:name="GuidaTvApplication">
+<!-- 		<activity android:name=".GuidaTv" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity> -->
+		<activity android:name=".ChannelScheduleView"></activity>
+		<activity android:name=".ScheduleView">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="com.google.code.guidatv.android.SWITCH_LEFT"></action>
+				<action android:name="com.google.code.guidatv.android.SWITCH_RIGHT"></action>
+			</intent-filter>
+		</activity>
+		<activity android:name=".ChannelSelectView"></activity>
+		<activity android:name=".SortChannelsView"></activity>
+	</application>
 
 
 
-<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest> 

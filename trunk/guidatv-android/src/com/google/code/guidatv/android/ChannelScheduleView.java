@@ -14,11 +14,18 @@ import org.restlet.resource.ResourceException;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,12 +38,28 @@ import com.google.code.guidatv.model.Transmission;
 public class ChannelScheduleView extends ListActivity
 {
     private static final String CHANNEL_CODE_ID = "CHANNEL_CODE";
+    
+    private static final Uri GOOGLE_URI = Uri.parse("http://www.google.it");
+    
+    private static final Uri WIKIPEDIA_URI = Uri.parse("http://it.m.wikipedia.org/");
+    
+    private static final Uri IMDB_URI = Uri.parse("http://m.imdb.com");
 
 	private GuidaTvService mGuidaTvService;
     
     private Date mCurrentDate;
     
     private String mChannelCode;
+    
+    private Schedule mSchedule;
+    
+    private static final int OPEN_GOOGLE_ID = Menu.FIRST;
+    
+    private static final int OPEN_WIKIPEDIA_ID = Menu.FIRST + 1;
+    
+    private static final int OPEN_IMDB_ID = Menu.FIRST + 2;
+    
+    private static final int OPEN_HOME_ID = Menu.FIRST + 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,6 +73,7 @@ public class ChannelScheduleView extends ListActivity
         if (mChannelCode == null) {
         	mChannelCode = extras.getString(CHANNEL_CODE_ID);
         }
+        registerForContextMenu(getListView());
     }
     
     @Override
@@ -75,6 +99,48 @@ public class ChannelScheduleView extends ListActivity
         } else {
             text2.setVisibility(View.GONE);
         }
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+    		ContextMenuInfo menuInfo) {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, OPEN_GOOGLE_ID, 0, R.string.menu_open_google);
+        menu.add(0, OPEN_WIKIPEDIA_ID, 0, R.string.menu_open_wikipedia);
+        menu.add(0, OPEN_IMDB_ID, 0, R.string.menu_open_imdb);
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+        String mainLink = mSchedule.getTransmissions().get(info.position).getMainLink();
+        if (mainLink != null) {
+        	menu.add(0, OPEN_HOME_ID, 0, R.string.menu_open_home);
+        }
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	Uri destination = null;
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		Transmission transmission = mSchedule.getTransmissions().get(
+				info.position);
+		switch(item.getItemId()) {
+    	case OPEN_GOOGLE_ID:
+			destination = Uri.withAppendedPath(GOOGLE_URI,
+					"search?q=" + Uri.encode(transmission.getName()));
+	        break;
+    	case OPEN_WIKIPEDIA_ID:
+			destination = Uri.withAppendedPath(WIKIPEDIA_URI,
+					"wiki?search=" + Uri.encode(transmission.getName()));
+    		break;
+    	case OPEN_IMDB_ID:
+			destination = Uri.withAppendedPath(IMDB_URI,
+					"find?q=" + Uri.encode(transmission.getName()));
+    		break;
+    	case OPEN_HOME_ID:
+    		destination = Uri.parse(transmission.getMainLink());
+		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				destination);
+		startActivity(browserIntent);
+    	return super.onContextItemSelected(item);
     }
 
     private void fillData()
@@ -110,6 +176,7 @@ public class ChannelScheduleView extends ListActivity
         @Override
         protected void onPostExecute(Schedule schedule)
         {
+        	mSchedule = schedule;
         	if (schedule == null) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(ChannelScheduleView.this);
 				builder.setMessage(

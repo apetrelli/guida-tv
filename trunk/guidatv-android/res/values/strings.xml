@@ -8,4 +8,10 @@
 <string name="schedule_button">Schedule</string>
 <string name="loading_schedule">Loading, please wait...</string>
 <string name="menu_change_date">Change date</string>
+<string name="menu_channels">Select channels</string>
+<string name="menu_sort_channels">Sort channels</string>
+<string name="menu_open_google">Search with Google</string>
+<string name="menu_open_wikipedia">Search with Wikipedia</string>
+<string name="menu_open_imdb">Search with IMDB</string>
+<string name="menu_open_home">Open transmission link</string>
 </resources>
