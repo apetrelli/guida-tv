@@ -168,6 +168,7 @@ public class ScheduleView extends TabActivity {
 	private void loadChannelTabs(List<Channel> channels) {
 		if (channels != null) {
 			TabHost tabHost = getTabHost(); // The activity TabHost
+			tabHost.setCurrentTab(0);
 			tabHost.clearAllTabs();
 			for (Channel channel : channels) {
 				Map<String, String> channelMap = new HashMap<String, String>();
