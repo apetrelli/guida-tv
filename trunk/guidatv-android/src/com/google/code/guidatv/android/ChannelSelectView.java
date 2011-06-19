@@ -85,7 +85,7 @@ public class ChannelSelectView extends ExpandableListActivity
     private void fillData()
     {
         dialog = ProgressDialog.show(ChannelSelectView.this, "",
-                "Loading. Please wait...", true);
+                getString(R.string.loading_schedule), true);
         new LoadChannelsTask().execute();
     }
 

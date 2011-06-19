@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, GuidaTv!</string>
-    <string name="app_name">guidatv-android</string>
-<string name="no_channels">No channels found</string>
-<string name="channels_button">Channels</string>
-<string name="sort_channels_button">Sort channels</string>
-<string name="schedule_button">Schedule</string>
-<string name="loading_schedule">Loading, please wait...</string>
-<string name="menu_change_date">Change date</string>
-<string name="menu_channels">Select channels</string>
-<string name="menu_sort_channels">Sort channels</string>
-<string name="menu_open_google">Search with Google</string>
-<string name="menu_open_wikipedia">Search with Wikipedia</string>
-<string name="menu_open_imdb">Search with IMDB</string>
-<string name="menu_open_info">Info</string>
-<string name="menu_open_home">Open transmission link</string>
+	<string name="app_name">Guida TV</string>
+	<string name="no_channels">Nessun canale trovato</string>
+	<string name="channels_button">Canali</string>
+	<string name="sort_channels_button">Ordina canali</string>
+	<string name="schedule_button">Programmazione</string>
+	<string name="loading_schedule">Caricamento dati, attendere prego...</string>
+	<string name="menu_change_date">Modifica data</string>
+	<string name="menu_channels">Seleziona canali</string>
+	<string name="menu_sort_channels">Ordina canali</string>
+	<string name="menu_open_google">Cerca con Google</string>
+	<string name="menu_open_wikipedia">Cerca in Wikipedia</string>
+	<string name="menu_open_imdb">Cerca in IMDB</string>
+	<string name="menu_open_info">Informazioni</string>
+	<string name="menu_open_home">Apri pagina della trasmissione</string>
 </resources>
