@@ -28,8 +28,6 @@ import com.google.code.guidatv.model.Channel;
 
 public class ChannelSelectView extends ExpandableListActivity
 {
-    private static final int SCHEDULE_VIEW=1;
-
     private GuidaTvService mGuidaTvService;
 
     private Map<Integer, Map<Integer, String>> position2code;
