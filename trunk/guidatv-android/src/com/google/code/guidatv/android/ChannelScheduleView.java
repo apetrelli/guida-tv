@@ -14,6 +14,7 @@ import org.restlet.resource.ResourceException;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,7 +30,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.TwoLineListItem;
 
 import com.google.code.guidatv.android.rest.GuidaTvService;
 import com.google.code.guidatv.model.Schedule;
@@ -59,7 +59,9 @@ public class ChannelScheduleView extends ListActivity
     
     private static final int OPEN_IMDB_ID = Menu.FIRST + 2;
     
-    private static final int OPEN_HOME_ID = Menu.FIRST + 3;
+    private static final int OPEN_INFO_ID = Menu.FIRST + 3;
+    
+    private static final int OPEN_HOME_ID = Menu.FIRST + 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,19 +91,6 @@ public class ChannelScheduleView extends ListActivity
     }
     
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id)
-    {
-        super.onListItemClick(l, v, position, id);
-        TwoLineListItem item = (TwoLineListItem) v;
-        TextView text2 = item.getText2();
-        if (text2.getVisibility() == View.GONE) {
-            text2.setVisibility(View.VISIBLE);
-        } else {
-            text2.setVisibility(View.GONE);
-        }
-    }
-    
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
     		ContextMenuInfo menuInfo) {
     	super.onCreateContextMenu(menu, v, menuInfo);
@@ -109,7 +98,12 @@ public class ChannelScheduleView extends ListActivity
         menu.add(0, OPEN_WIKIPEDIA_ID, 0, R.string.menu_open_wikipedia);
         menu.add(0, OPEN_IMDB_ID, 0, R.string.menu_open_imdb);
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        String mainLink = mSchedule.getTransmissions().get(info.position).getMainLink();
+        Transmission transmission = mSchedule.getTransmissions().get(info.position);
+        String transmissionInfo = transmission.getDescription();
+        if (transmissionInfo != null) {
+        	menu.add(0, OPEN_INFO_ID, 0, R.string.menu_open_info);
+        }
+		String mainLink = transmission.getMainLink();
         if (mainLink != null) {
         	menu.add(0, OPEN_HOME_ID, 0, R.string.menu_open_home);
         }
@@ -134,12 +128,26 @@ public class ChannelScheduleView extends ListActivity
 			destination = Uri.withAppendedPath(IMDB_URI,
 					"find?q=" + Uri.encode(transmission.getName()));
     		break;
+    	case OPEN_INFO_ID:
+    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    		builder.setMessage(transmission.getDescription()).setCancelable(false).setPositiveButton("OK", new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+    		AlertDialog dialog = builder.create();
+    		dialog.show();
+    		break;
     	case OPEN_HOME_ID:
     		destination = Uri.parse(transmission.getMainLink());
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-				destination);
-		startActivity(browserIntent);
+		if (destination != null) {
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+					destination);
+			startActivity(browserIntent);
+		}
     	return super.onContextItemSelected(item);
     }
 
@@ -220,8 +228,8 @@ public class ChannelScheduleView extends ListActivity
             SimpleAdapter adapter = new SimpleAdapter(
                     ChannelScheduleView.this, transmissionList, R.layout.transmission_item,
                     new String[]
-                    { "TIME_AND_NAME", "INFO" }, new int[]
-                    { android.R.id.text1, android.R.id.text2 });
+                    { "TIME_AND_NAME" }, new int[]
+                    { R.id.text });
             setListAdapter(adapter);
             if (isToday) {
             	if (index > 0) {
