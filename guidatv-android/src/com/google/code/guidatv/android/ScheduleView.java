@@ -1,3 +1,20 @@
+/*
+ *  Guida TV: una guida TV per canali italiani.
+ *  Copyright (C) 2011 Antonio Petrelli
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.google.code.guidatv.android;
 
 import java.util.ArrayList;
@@ -6,14 +23,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.text.format.DateFormat;
+import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -41,6 +63,8 @@ public class ScheduleView extends TabActivity {
 	private static final int SELECT_CHANNELS = CHANGE_DATE + 1;
 	
 	private static final int SORT_CHANNELS = SELECT_CHANNELS + 1;
+	
+	private static final int ABOUT = SORT_CHANNELS + 1;
 
     private static final int ACTIVITY_CHANNELS = 2;
     
@@ -95,6 +119,7 @@ public class ScheduleView extends TabActivity {
 		menu.add(0, CHANGE_DATE, 0, R.string.menu_change_date);
 		menu.add(0, SELECT_CHANNELS, 0, R.string.menu_channels);
 		menu.add(0, SORT_CHANNELS, 0, R.string.menu_sort_channels);
+		menu.add(0, ABOUT, 0, R.string.menu_about);
 		return retValue;
 	}
 	
@@ -113,10 +138,13 @@ public class ScheduleView extends TabActivity {
             i = new Intent(this, SortChannelsView.class);
             startActivityForResult(i, ACTIVITY_SORT_CHANNELS);
 			return true;
+		case ABOUT:
+			showAboutDialog();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -129,6 +157,24 @@ public class ScheduleView extends TabActivity {
 	
 	private void selectDate() {
 		showDialog(DATE_DIALOG_ID);
+	}
+	
+	private void showAboutDialog() {
+		SpannableString string = new SpannableString(getString(R.string.about_text));
+		final TextView message = new TextView(this);
+		message.setPadding(5, 5, 5, 5);
+		message.setText(string);
+		Linkify.addLinks(message, Linkify.ALL);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.about_title)).setCancelable(true).setPositiveButton(android.R.string.ok, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		}).setView(message);
+		AlertDialog dialog = builder.create();
+		dialog.show();
 	}
 	
 	@Override
