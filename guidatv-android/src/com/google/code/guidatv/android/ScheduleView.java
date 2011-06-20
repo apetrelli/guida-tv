@@ -165,7 +165,6 @@ public class ScheduleView extends TabActivity {
 		final TextView message = new TextView(this);
 		message.setPadding(5, 5, 5, 5);
 		message.setText(string);
-		message.setMaxLines(5);
 		message.setVerticalScrollBarEnabled(true);
 		message.setMovementMethod(new ScrollingMovementMethod());
 		Linkify.addLinks(message, Linkify.ALL);
