@@ -1,3 +1,20 @@
+/*
+ *  Guida TV: una guida TV per canali italiani.
+ *  Copyright (C) 2011 Antonio Petrelli
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.google.code.guidatv.android;
 
 import java.io.IOException;
@@ -10,8 +27,10 @@ import java.util.Set;
 
 import org.restlet.resource.ResourceException;
 
+import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -20,6 +39,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.google.code.guidatv.android.SelectableExpandableListAdapter.ParentChildIndex;
 import com.google.code.guidatv.android.db.ChannelDbAdapter;
@@ -108,6 +128,26 @@ public class ChannelSelectView extends ExpandableListActivity
         @Override
         protected void onPostExecute(List<Channel> channels)
         {
+        	if (channels == null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(ChannelSelectView.this);
+				builder.setMessage(
+						R.string.error_cannot_get_channels)
+						.setCancelable(false)
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+									}
+								});
+				AlertDialog dialog = builder.create();
+				dialog.show();
+				TextView empty = (TextView) findViewById(android.R.id.empty);
+				empty.setText("Unreadable schedule");
+        		return;
+        	}
         	Set<String> codes = new HashSet<String>();
         	Cursor cursor = mDb.fetchAllChannels();
         	startManagingCursor(cursor);
