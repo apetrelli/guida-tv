@@ -35,6 +35,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.format.DateFormat;
+import android.text.method.ScrollingMovementMethod;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -164,6 +165,9 @@ public class ScheduleView extends TabActivity {
 		final TextView message = new TextView(this);
 		message.setPadding(5, 5, 5, 5);
 		message.setText(string);
+		message.setMaxLines(5);
+		message.setVerticalScrollBarEnabled(true);
+		message.setMovementMethod(new ScrollingMovementMethod());
 		Linkify.addLinks(message, Linkify.ALL);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.about_title)).setCancelable(true).setPositiveButton(android.R.string.ok, new OnClickListener() {
