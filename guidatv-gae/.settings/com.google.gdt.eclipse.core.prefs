@@ -1,5 +1,0 @@
-#Thu Jan 06 17:40:42 CET 2011
-eclipse.preferences.version=1
-jarsExcludedFromWebInfLib=/home/antonio/javadev/workspace-velocity2/guidatv-gae/war/WEB-INF/lib/org.restlet.jar
-warSrcDir=war
-warSrcDirIsOutput=true
