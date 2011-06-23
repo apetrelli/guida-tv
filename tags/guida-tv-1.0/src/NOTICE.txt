@@ -1,0 +1,8 @@
+Guida TV: una guida TV per canali italiani.
+Copyright (C) 2011 Antonio Petrelli
+
+It contains code from CWAC:
+https://github.com/commonsguy/cwac-touchlist (Apache License 2.0)
+
+It contains code from Google:
+http://code.google.com/p/iosched/ (Apache License 2.0)
