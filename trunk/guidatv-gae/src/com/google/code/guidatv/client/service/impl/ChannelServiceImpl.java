@@ -96,7 +96,7 @@ public class ChannelServiceImpl implements ChannelService{
         channels.add(new Channel("RaiEducational", "Rai Scuola", "education", "it_IT", "Rai"));
         channels.add(new Channel("RaiEDU2", "Rai Storia", "education", "it_IT", "Rai"));
         channels.add(new Channel("Premium", "Rai Premium", "retakes", "it_IT", "Rai"));
-        channels.add(new Channel("CinemaWorld", "Rai Movie", "movies", "it_IT", "Rai"));
+        channels.add(new Channel("RaiMovie", "Rai Movie", "movies", "it_IT", "Rai"));
         channels.add(new Channel("RaiGulp", "Rai Gulp", "children", "it_IT", "Rai"));
         channels.add(new Channel("Yoyo", "Rai Yoyo", "children", "it_IT", "Rai"));
         channels.add(new Channel("EuroNews", "Euronews", "news", "it_IT", "Rai"));
