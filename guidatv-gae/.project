@@ -44,9 +44,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src-common</name>
+			<name>java</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/guidatv-common/src</locationURI>
+			<location>/home/antonio/javadev/workspace-gwt/guidatv-common/src/main/java</location>
 		</link>
 	</linkedResources>
 </projectDescription>
