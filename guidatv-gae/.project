@@ -46,7 +46,7 @@
 		<link>
 			<name>java</name>
 			<type>2</type>
-			<location>/home/antonio/javadev/workspace-gwt/guidatv-common/src/main/java</location>
+			<location>/home/antonio/javadev/workspace-gwt/guidatv-common/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
