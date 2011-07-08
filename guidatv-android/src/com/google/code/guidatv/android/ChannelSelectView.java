@@ -183,11 +183,16 @@ public class ChannelSelectView extends ExpandableListActivity
                     innerMap = new HashMap<Integer, String>();
                     position2code.put(networkPos, innerMap);
                 }
-                innerMap.put(channelPos, channel.getCode());
-                if (codes.contains(channel.getCode())) {
+                String channelCode = channel.getCode();
+				innerMap.put(channelPos, channelCode);
+                if (codes.contains(channelCode)) {
                 	positions.add(new ParentChildIndex(networkPos, channelPos));
+                	codes.remove(channelCode);
                 }
                 channelPos++;
+            }
+            for (String code : codes) {
+            	mDb.deleteChannel(code);
             }
             SelectableExpandableListAdapter adapter = new SelectableExpandableListAdapter(
                     ChannelSelectView.this, networks, R.layout.network_item,
