@@ -46,6 +46,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         code2service.put("Boing", new BoingScheduleService());
         code2service.put("KA", mediasetBaseService);
         code2service.put("KQ", mediasetBaseService);
+        code2service.put("I2", mediasetBaseService);
         code2service.put("La7", telecomService);
         code2service.put("La7d", telecomService);
         code2service.put("6280", new SkyScheduleService());
