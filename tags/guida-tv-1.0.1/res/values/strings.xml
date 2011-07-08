@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Guida TV. Una guida TV per canali italiani. 
+    Copyright (C) 2011 Antonio Petrelli
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+	<string name="app_name">Guida TV</string>
+	<string name="about_title">Informazioni</string>
+	<string name="about_text">Guida TV \n
+	Copyright (C) 2011 Antonio Petrelli\n
+	This program comes with ABSOLUTELY NO WARRANTY; for details go to http://www.gnu.org/licenses/gpl.html#section15.\n
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; go to http://www.gnu.org/licenses/gpl.html for details.\n
+    You can find the source at http://code.google.com/p/guida-tv/\n
+    It contains code from CWAC: https://github.com/commonsguy/cwac-touchlist
+    It contains code from Google: http://code.google.com/p/iosched/</string>
+	<string name="no_channels">Nessun canale trovato</string>
+	<string name="channels_button">Canali</string>
+	<string name="sort_channels_button">Ordina canali</string>
+	<string name="schedule_button">Programmazione</string>
+	<string name="loading_schedule">Caricamento dati, attendere prego...</string>
+	<string name="menu_change_date">Modifica data</string>
+	<string name="menu_channels">Seleziona canali</string>
+	<string name="menu_sort_channels">Ordina canali</string>
+	<string name="menu_about">Informazioni sull\'applicazione</string>
+	<string name="menu_open_google">Cerca con Google</string>
+	<string name="menu_open_wikipedia">Cerca in Wikipedia</string>
+	<string name="menu_open_imdb">Cerca in IMDB</string>
+	<string name="menu_open_info">Informazioni</string>
+	<string name="menu_open_home">Apri pagina della trasmissione</string>
+	<string name="error_cannot_get_schedule">Non riesco a scaricare la lista dei programmi. Sei connesso a Internet?</string>
+	<string name="error_cannot_get_channels">Non riesco a scaricare la lista dei canali. Sei connesso a Internet?</string>
+</resources>
