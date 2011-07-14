@@ -1,7 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'
 xmlns:p1="urn:import:com.google.gwt.user.datepicker.client"
-xmlns:agwt="urn:import:org.gwt.advanced.client.ui.widget"
 xmlns:gtv="urn:import:com.google.code.guidatv.client.ui.widget">
 	<ui:style type="com.google.code.guidatv.client.ui.ScheduleWidget.ScheduleWidgetStyle">
 		.panel {
