@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="guidatv-gae">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/" source-path="/war"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/gwt"/>
+        <dependent-module archiveName="guidatv-common-1.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/guidatv-common/guidatv-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="guidatv-gae"/>
+        <property name="java-output-path" value="/guidatv-gae/target/classes"/>
+    </wb-module>
+</project-modules>
