@@ -8,7 +8,6 @@
     <name>Guida TV - common code</name>
     <description>Common code of Guida TV</description>
     <build>
-        <sourceDirectory>src</sourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
