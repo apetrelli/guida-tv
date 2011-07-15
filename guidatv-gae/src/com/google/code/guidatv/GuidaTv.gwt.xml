@@ -1,9 +1,0 @@
-<module>
-	<inherits name="com.google.gwt.user.User"/>
-	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
-    <inherits name="org.restlet.Restlet"/>
-	<entry-point class="com.google.code.guidatv.client.GuidaTv"/>
-    <source path="client" />
-    <source path="model" />
-    <source path="rest" />
-</module>
