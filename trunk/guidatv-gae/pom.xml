@@ -58,6 +58,9 @@
 				<version>0.8.4</version>
 				<configuration>
 					<serverId>appengine.google.com</serverId>
+					<unpackVersion>1.5.1</unpackVersion>
+					<sdkDir>${settings.localRepository}/com/google/appengine/appengine-java-sdk/1.5.1/appengine-java-sdk-1.5.1</sdkDir>
+					<splitJars>true</splitJars>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -199,7 +202,6 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>2.2.0</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.jdo</groupId>
