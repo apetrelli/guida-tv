@@ -66,7 +66,7 @@
                 <configuration>
                     <runTarget>/GuidaTv.html</runTarget>
                     <server>com.google.appengine.tools.development.gwt.AppEngineLauncher</server>
-                    <appEngineVersion>1.5.1</appEngineVersion>
+                    <appEngineVersion>${gae.version}</appEngineVersion>
                     <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
                     <modules>
                         <module>com.google.code.guidatv.GuidaTv</module>
@@ -90,15 +90,15 @@
                 <version>0.8.4</version>
                 <configuration>
                     <serverId>appengine.google.com</serverId>
-                    <unpackVersion>1.5.1</unpackVersion>
-                    <sdkDir>${settings.localRepository}/com/google/appengine/appengine-java-sdk/1.5.1/appengine-java-sdk-1.5.1</sdkDir>
+                    <unpackVersion>${gae.version}</unpackVersion>
+                    <sdkDir>${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</sdkDir>
                     <splitJars>true</splitJars>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>net.kindleit</groupId>
                         <artifactId>gae-runtime</artifactId>
-                        <version>1.5.1</version>
+                        <version>${gae.version}</version>
                         <type>pom</type>
                     </dependency>
                 </dependencies>
@@ -290,12 +290,12 @@
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
-            <version>1.5.1</version>
+            <version>${gae.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-jsr107cache</artifactId>
-            <version>1.5.1</version>
+            <version>${gae.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jsr107cache</groupId>
@@ -305,21 +305,21 @@
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-labs</artifactId>
-            <version>1.5.1</version>
+            <version>${gae.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-stubs</artifactId>
-            <version>1.5.1</version>
+            <version>${gae.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-testing</artifactId>
-            <version>1.5.1</version>
+            <version>${gae.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -328,4 +328,7 @@
             <version>1.9.14</version>
         </dependency>
     </dependencies>
+    <properties>
+    	<gae.version>1.5.2</gae.version>
+    </properties>
 </project>
