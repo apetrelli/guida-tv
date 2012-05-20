@@ -36,6 +36,7 @@ public class ChannelServiceImpl implements ChannelService{
         addTelecomChannels(networks);
         addSkyChannels(networks);
         addDNEChannels(networks);
+        addSOMChannels(networks);
         code2channel = new LinkedHashMap<String, Channel>();
         for (List<Channel> chns: network2channels.values()) {
             for (Channel channel: chns) {
@@ -52,7 +53,7 @@ public class ChannelServiceImpl implements ChannelService{
         defaultSelectedChannels.add("La7");
     }
 
-    @Override
+	@Override
     public List<Region> getRegions() {
         return regions;
     }
@@ -139,4 +140,10 @@ public class ChannelServiceImpl implements ChannelService{
         network2channels.put("Discovery Networks Europe", channels);
     }
 
+    private void addSOMChannels(List<String> networks) {
+        networks.add("Switchover Media");
+        List<Channel> channels = new ArrayList<Channel>();
+        channels.add(new Channel("SOMGiallo", "Giallo", "series", "it_IT", "Switchover Media"));
+        network2channels.put("Switchover Media", channels);
+	}
 }

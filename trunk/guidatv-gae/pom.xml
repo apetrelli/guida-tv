@@ -84,6 +84,25 @@
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/gwt</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
             <plugin>
                 <groupId>net.kindleit</groupId>
                 <artifactId>maven-gae-plugin</artifactId>
@@ -329,6 +348,6 @@
         </dependency>
     </dependencies>
     <properties>
-    	<gae.version>1.5.2</gae.version>
+    	<gae.version>1.6.4</gae.version>
     </properties>
 </project>
