@@ -18,10 +18,10 @@ import com.google.code.guidatv.model.Transmission;
 
 public class CachedSOMGialloTransmissionDao implements SOMGialloTransmissionDao {
 
-    private SOMGialloTransmissionDao dao;
+    private SOMGialloTransmissionDaoImpl dao;
     private Cache cache;
 
-    public CachedSOMGialloTransmissionDao(SOMGialloTransmissionDao dao) {
+    public CachedSOMGialloTransmissionDao(SOMGialloTransmissionDaoImpl dao) {
         this.dao = dao;
 
         Map<Integer, Object> props = new HashMap<Integer, Object>();
@@ -42,10 +42,13 @@ public class CachedSOMGialloTransmissionDao implements SOMGialloTransmissionDao 
         String key = channel.getCode() + format.format(day);
         List<Transmission> transmissions = (List<Transmission>) cache.get(key);
         if (transmissions == null) {
-            transmissions = dao.getTransmissions(channel, day);
-            if (transmissions != null) {
-                cache.put(key, transmissions);
-            }
+        	Map<Date, List<Transmission>> transmissionMap = dao.getTransmissions(channel, day);
+        	if (transmissionMap != null) {
+        		transmissions = transmissionMap.get(day);
+        	}
+        	for (Map.Entry<Date, List<Transmission>> entry: transmissionMap.entrySet()) {
+        		cache.put(channel.getCode() + format.format(entry.getKey()), entry.getValue());
+        	}
         }
         return transmissions;
     }
