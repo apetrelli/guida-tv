@@ -2,7 +2,6 @@ package com.google.code.guidatv.server.service.impl.italy.generalistic;
 
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.google.code.guidatv.model.Channel;
 import com.google.code.guidatv.model.Transmission;
@@ -14,10 +13,6 @@ public class DNERealTimeScheduleService extends AbstractScheduleService {
 
     private DNERealTimeTransmissionDao dao = new CachedDNERealTimeTransmissionDao(
             new DNERealTimeTransmissionDaoImpl());
-
-    public DNERealTimeScheduleService() {
-        super(0, TimeZone.getTimeZone("Europe/Rome"));
-    }
 
     protected List<Transmission> getTransmissionsByDate(Channel channel,
             Date currentDate) {
