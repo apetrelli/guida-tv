@@ -16,7 +16,7 @@ public class DNERealTimeScheduleService extends AbstractScheduleService {
 
     protected List<Transmission> getTransmissionsByDate(Channel channel,
             Date currentDate) {
-        List<Transmission> returnedTransmissions = dao.getTransmissions(currentDate);
+        List<Transmission> returnedTransmissions = dao.getTransmissions(channel, currentDate);
         return returnedTransmissions;
     }
 
