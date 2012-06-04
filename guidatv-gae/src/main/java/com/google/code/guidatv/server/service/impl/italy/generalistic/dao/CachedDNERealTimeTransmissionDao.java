@@ -40,7 +40,8 @@ public class CachedDNERealTimeTransmissionDao implements DNERealTimeTransmission
     public List<Transmission> getTransmissions(Channel channel, Date day) {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
         String key = "DNERealTime" + format.format(day);
-        List<Transmission> transmissions = (List<Transmission>) cache.get(key);
+        @SuppressWarnings("unchecked")
+		List<Transmission> transmissions = (List<Transmission>) cache.get(key);
         if (transmissions == null) {
             transmissions = dao.getTransmissions(channel, day);
             if (transmissions != null) {
