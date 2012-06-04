@@ -11,7 +11,8 @@ import com.google.code.guidatv.server.service.impl.italy.generalistic.dao.RaiTra
 
 public class RaiScheduleService extends AbstractScheduleService {
 
-    private RaiTransmissionDao dao = new CachedRaiTransmissionDao(new RaiTransmissionDaoImpl());
+//    private RaiTransmissionDao dao = new CachedRaiTransmissionDao(new RaiTransmissionDaoImpl());
+    private RaiTransmissionDao dao = new RaiTransmissionDaoImpl();
 
     protected List<Transmission> getTransmissionsByDate(Channel channel,
             Date currentDate) {

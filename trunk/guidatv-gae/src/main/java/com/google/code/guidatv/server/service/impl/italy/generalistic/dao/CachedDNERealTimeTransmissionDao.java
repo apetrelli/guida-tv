@@ -13,6 +13,7 @@ import net.sf.jsr107cache.CacheFactory;
 import net.sf.jsr107cache.CacheManager;
 
 import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
+import com.google.code.guidatv.model.Channel;
 import com.google.code.guidatv.model.Transmission;
 
 public class CachedDNERealTimeTransmissionDao implements DNERealTimeTransmissionDao {
@@ -36,12 +37,12 @@ public class CachedDNERealTimeTransmissionDao implements DNERealTimeTransmission
     }
 
     @Override
-    public List<Transmission> getTransmissions(Date day) {
+    public List<Transmission> getTransmissions(Channel channel, Date day) {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
         String key = "DNERealTime" + format.format(day);
         List<Transmission> transmissions = (List<Transmission>) cache.get(key);
         if (transmissions == null) {
-            transmissions = dao.getTransmissions(day);
+            transmissions = dao.getTransmissions(channel, day);
             if (transmissions != null) {
                 cache.put(key, transmissions);
             }
