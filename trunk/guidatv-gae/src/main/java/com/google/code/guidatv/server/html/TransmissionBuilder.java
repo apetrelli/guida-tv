@@ -10,6 +10,7 @@ public class TransmissionBuilder {
 	Calendar previousTime;
 	Date time;
 	String title;
+	String subtitle;
 	String episode;
 	String description;
 	String url;
@@ -26,6 +27,7 @@ public class TransmissionBuilder {
 	public TransmissionBuilder prepareForNextTransmission() {
 		time = null;
 		title = null;
+		subtitle = null;
 		episode = null;
 		description = null;
 		url = null;
@@ -49,6 +51,11 @@ public class TransmissionBuilder {
 		return this;
 	}
 	
+	public TransmissionBuilder setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+		return this;
+	}
+	
 	public TransmissionBuilder setDescription(String description) {
 		this.description = description;
 		return this;
@@ -65,16 +72,22 @@ public class TransmissionBuilder {
 	}
 	
 	public Transmission build() {
+		String firstString = episode;
+		String secondString = description;
+		return new Transmission(compose(title, subtitle), compose(firstString, secondString), time, null, url);
+	}
+
+	private String compose(String firstString, String secondString) {
 		String finalDescription = null;
-		if (episode != null) {
-			if (description != null) {
-				finalDescription = episode + " - " + description;
+		if (firstString != null) {
+			if (secondString != null) {
+				finalDescription = firstString + " - " + secondString;
 			} else {
-				finalDescription = episode;
+				finalDescription = firstString;
 			}
-		} else if (description != null) {
-			finalDescription = description;
+		} else if (secondString != null) {
+			finalDescription = secondString;
 		}
-		return new Transmission(title, finalDescription, time, null, url);
+		return finalDescription;
 	}
 }
