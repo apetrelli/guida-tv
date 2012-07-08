@@ -353,6 +353,6 @@
         </dependency>
     </dependencies>
     <properties>
-    	<gae.version>1.6.5</gae.version>
+    	<gae.version>1.7.0</gae.version>
     </properties>
 </project>
