@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jsr107cache.Cache;
 import net.sf.jsr107cache.CacheException;
@@ -39,6 +40,7 @@ public class CachedSOMGialloTransmissionDao implements SOMGialloTransmissionDao 
     @Override
     public List<Transmission> getTransmissions(Channel channel, Date day) {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        format.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         String key = channel.getCode() + format.format(day);
         List<Transmission> transmissions = (List<Transmission>) cache.get(key);
         if (transmissions == null) {
